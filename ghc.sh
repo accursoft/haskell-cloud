@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 # install prerequisites
-yum install -y ghc diffutils ncurses-devel gcc gmp-devel
+yum install -y ghc make ncurses-devel gcc gmp-devel
 
 #download ghc
 curl -s http://www.haskell.org/ghc/dist/7.8.2/ghc-7.8.2-src.tar.xz | tar xJ
@@ -35,7 +35,7 @@ mv ghcpkg ghc-pkg
 
 #clean up
 rm -rf /ghc-*
-yum autoremove -y ghc diffutils ncurses-devel
+yum autoremove -y ghc make ncurses-devel
 yum clean all
 
 #switch on gold linker

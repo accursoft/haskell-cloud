@@ -1,4 +1,4 @@
-FROM mattdm/fedora
+FROM fedora
 MAINTAINER Gideon Sireling <gideon@accursoft.com>
 
 ADD ghc.sh /tmp/
