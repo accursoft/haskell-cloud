@@ -1,7 +1,10 @@
 #!/bin/bash -eu
 
 # install prerequisites
-yum install -y ghc make ncurses-devel gcc gmp-devel
+yum install -y ghc make ncurses-devel gcc gmp-devel which zlib-devel
+#which and zlib-devel are only needed later by cabal-install
+#yum installing all the prerequisites in the same layer saves time (we won't need to contact the update sites again)
+#and space (we won't bloat subsequent layers with changes to the rpm db)
 
 #download ghc
 curl -s http://www.haskell.org/ghc/dist/7.8.2/ghc-7.8.2-src.tar.xz | tar xJ
