@@ -7,4 +7,7 @@ RUN /tmp/ghc.sh
 ADD cabal.sh /tmp/
 RUN /tmp/cabal.sh
 
+ADD framework.sh /tmp/
+RUN /tmp/framework.sh <framework>
+
 RUN rm -rf /tmp/*

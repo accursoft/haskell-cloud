@@ -1,0 +1,5 @@
+#!/bin/bash -eu
+
+sed "s|<framework>|$1|" Dockerfile.templ >Dockerfile
+docker build -t $1 .
+rm Dockerfile
