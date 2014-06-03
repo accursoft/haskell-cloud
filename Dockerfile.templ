@@ -1,6 +1,10 @@
 FROM fedora
 MAINTAINER Gideon Sireling <gideon@accursoft.com>
 
+#https://github.com/haskell/cabal/issues/1883
+#https://github.com/dotcloud/docker/issues/2424
+ENV LANG en_US.UTF-8
+
 ADD ghc.sh /tmp/
 RUN /tmp/ghc.sh
 
