@@ -18,7 +18,6 @@ SRC_HC_OPTS = -O -H64m
 HADDOCK_DOCS = NO
 DYNAMIC_GHC_PROGRAMS = NO
 GhcLibWays = v
-GhcWithInterpreter = NO
 GhcRTSWays = thr" > mk/build.mk
 
 make -j$(nproc)
@@ -31,8 +30,9 @@ strip bin/*
 
 #clean up bin
 cd ../../bin
-rm hp2ps runghc* ghc ghc-pkg
+rm hp2ps runghc* ghc ghci ghc-pkg
 mv ghc-pkg-* ghcpkg
+mv ghci-* ghci
 mv ghc-* ghc
 mv ghcpkg ghc-pkg
 
