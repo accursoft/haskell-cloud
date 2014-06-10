@@ -5,13 +5,13 @@ MAINTAINER Gideon Sireling <gideon@accursoft.com>
 #https://github.com/dotcloud/docker/issues/2424
 ENV LANG en_US.UTF-8
 
-ADD ghc.sh /tmp/
+COPY ghc.sh /tmp/
 RUN /tmp/ghc.sh
 
-ADD cabal.sh /tmp/
+COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh
 
-ADD framework.sh /tmp/
+COPY framework.sh /tmp/
 RUN /tmp/framework.sh <framework>
 
 RUN rm -rf /tmp/*
