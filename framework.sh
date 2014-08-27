@@ -8,6 +8,7 @@ case $1 in
     echo "network" >/tmp/provides
     ;;
   mflow)
+    cabal install --global cpphs
     cabal install --global MFlow
     echo "MFlow" >/tmp/provides
     ;;
