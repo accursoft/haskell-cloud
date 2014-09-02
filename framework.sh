@@ -13,9 +13,8 @@ case $1 in
     echo "MFlow" >/tmp/provides
     ;;
   yesod)
-    cabal install --global alex
-    cabal install --global yesod-platform happy esqueleto
-    echo "yesod-platform-\d|^esqueleto" >/tmp/provides
+    cabal install --global yesod yesod-bin alex happy esqueleto
+    echo "yesod-\d|^esqueleto" >/tmp/provides
     ;;
   snap)
     cabal install --global snap
