@@ -42,4 +42,4 @@ s|haddock-interfaces: .*|haddock-interfaces:|
 s|haddock-html: .*|haddock-html:|" {} +
 
 #clean up
-rm -rf /.cabal
+rm -rf /.cabal/*/

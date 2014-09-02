@@ -12,3 +12,8 @@ mv /.cabal/bin/cabal /usr/local/bin
 
 #remove the packages installed by cabal-install, as they might not be the best ones to use when we install the frameworks
 rm -rf /cabal-install-* /.cabal /.ghc
+
+#generate default .cabal/config
+cabal get
+#replace hackage with stackage inclusive
+sed -i "s|remote-repo:.*|remote-repo: stackage:http://www.stackage.org/alias/fpcomplete/unstable-ghc78-inclusive|" /.cabal/config
