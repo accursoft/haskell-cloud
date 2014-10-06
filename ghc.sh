@@ -1,10 +1,18 @@
 #!/bin/bash -eu
 
 # install prerequisites
-yum install -y ghc make ncurses-devel gcc gmp-devel which zlib-devel
-#which and zlib-devel are only needed later by cabal-install
-#yum installing all the prerequisites in the same layer saves time (we won't need to contact the update sites again)
-#and space (we won't bloat subsequent layers with changes to the rpm db)
+apt-get update
+apt-get install -y \
+  curl \
+  gcc \
+  ghc \
+  libgmp-dev \
+  make \
+  ncurses-dev \
+  zlib1g-dev
+#zlib-dev is only needed later by cabal-install
+#installing all the prerequisites in the same layer saves time (we won't need to contact the update sites again)
+#and space (we won't bloat subsequent layers with changes to the package db)
 
 #download ghc
 curl -s http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-src.tar.xz | tar xJ
@@ -23,6 +31,10 @@ GhcRTSWays = thr" > mk/build.mk
 make -j$(nproc)
 make install
 
+#switch on gold linker
+#we can't do this earlier because the apt-installed ghc can't use it
+apt-get install binutils-gold
+
 #strip libraries and executables
 cd /usr/local/lib/ghc*
 find -name '*.a' -exec strip --strip-unneeded {} +
@@ -38,9 +50,8 @@ mv ghcpkg ghc-pkg
 
 #clean up
 rm -rf /ghc-*
-yum autoremove -y ghc make ncurses-devel
-yum clean all
-
-#switch on gold linker
-#we can't do this earlier because the yum-installed ghc can't use it
-echo 2 | alternatives --config ld
+apt-get purge --auto-remove -y \
+  ghc \
+  make \
+  ncurses-dev
+apt-get clean
