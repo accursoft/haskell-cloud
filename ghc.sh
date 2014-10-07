@@ -49,9 +49,9 @@ mv ghc-* ghc
 mv ghcpkg ghc-pkg
 
 #clean up
-rm -rf /ghc-*
 apt-get purge --auto-remove -y \
   ghc \
   make \
   ncurses-dev
 apt-get clean
+rm -rf /ghc-* /var/lib/apt/lists/*
