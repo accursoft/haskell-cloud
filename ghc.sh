@@ -3,19 +3,19 @@
 # install prerequisites
 apt-get update
 apt-get install -y \
-  curl \
   gcc \
   ghc \
   libgmp-dev \
   make \
   ncurses-dev \
+  wget \
   zlib1g-dev
 #zlib-dev is only needed later by cabal-install
 #installing all the prerequisites in the same layer saves time (we won't need to contact the update sites again)
 #and space (we won't bloat subsequent layers with changes to the package db)
 
 #download ghc
-curl -s http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-src.tar.xz | tar xJ
+wget -qO- http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-src.tar.xz | tar xJ
 cd ghc-*
 
 #build

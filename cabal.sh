@@ -1,12 +1,14 @@
 #!/bin/bash -eu
 
 #download cabal
-curl -s http://hackage.haskell.org`curl -s http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
+wget -qO- http://hackage.haskell.org`wget -qO- http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
 cd cabal-install-*
+
+#ca-certificates not installed
+sed -i "s|https:|http:|g" bootstrap.sh
 
 #build
 export EXTRA_CONFIGURE_OPTS=--ghc-option=-j
-sed -i "s|{CURL} -L|{CURL} -Ls|g" bootstrap.sh
 ./bootstrap.sh --no-doc
 mv ~/.cabal/bin/cabal /usr/local/bin
 
