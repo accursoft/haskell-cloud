@@ -8,7 +8,7 @@ cd cabal-install-*
 sed -i "s|https:|http:|g" bootstrap.sh
 
 #build
-export EXTRA_CONFIGURE_OPTS=--ghc-option=-j
+export EXTRA_CONFIGURE_OPTS="--ghc-option=-j"
 ./bootstrap.sh --no-doc
 mv ~/.cabal/bin/cabal /usr/local/bin
 
