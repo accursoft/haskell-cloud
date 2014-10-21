@@ -35,9 +35,12 @@ make install
 #we can't do this earlier because the apt-installed ghc can't use it
 apt-get install binutils-gold
 
-#strip libraries and executables
 cd /usr/local/lib/ghc*
-find -name '*.a' -exec strip --strip-unneeded {} +
+#strip is silent, tell the user what's happening
+echo "Striping libraries ..."
+find -name '*.a' -print -exec strip --strip-unneeded {} +
+echo "Striping executables ..."
+ls bin/*
 strip bin/*
 
 #clean up bin
