@@ -2,5 +2,5 @@
 
 #Can't just pipe the output of sed to docker because of https://github.com/docker/docker/issues/1912
 sed "s|<framework>|$1|" Dockerfile.templ >Dockerfile
-docker build -t $1 .
+docker build -t `docker info 2>/dev/null | grep Username | cut -c11-`/$1 .
 rm Dockerfile
