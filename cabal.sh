@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 #download cabal
-wget -qO- http://hackage.haskell.org`wget -qO- http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
+wget -nv -O- http://hackage.haskell.org`wget -nv -O- http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
 cd cabal-install-*
 
 #ca-certificates not installed
