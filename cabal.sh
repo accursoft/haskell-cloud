@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 #download cabal
-wget -nv -O- https://hackage.haskell.org`wget -nv -O- https://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
+wget -O- https://hackage.haskell.org`wget -O- https://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
 cd cabal-install-*
 
 #build
