@@ -3,6 +3,7 @@
 # install prerequisites
 apt-get update
 apt-get install -y \
+  ca-certificates \
   gcc \
   ghc \
   libgmp-dev \
@@ -15,7 +16,7 @@ apt-get install -y \
 #and space (we won't bloat subsequent layers with changes to the package db)
 
 #download ghc
-wget -qO- http://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-src.tar.xz | tar xJ
+wget -qO- https://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-src.tar.xz | tar xJ
 cd ghc-*
 
 #build
@@ -53,6 +54,7 @@ mv ghcpkg ghc-pkg
 
 #clean up
 apt-get purge --auto-remove -y \
+  ca-certificates \
   ghc \
   make \
   ncurses-dev
