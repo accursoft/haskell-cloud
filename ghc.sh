@@ -3,6 +3,7 @@
 # install prerequisites
 
 dependencies="
+  ca-certificates
   gcc
   libgmp-dev
   wget
@@ -13,7 +14,6 @@ dependencies="
 #and space (we won't bloat subsequent layers with changes to the package db)
   
 build_dependencies="
-  ca-certificates
   ghc
   make
   ncurses-dev
