@@ -16,3 +16,13 @@ COPY framework.sh /tmp/
 RUN /tmp/framework.sh <framework>
 
 RUN rm -rf /tmp/*
+
+RUN useradd -m haskell
+USER haskell
+
+ENV PORT 8080
+EXPOSE $PORT
+ENV PATH $PATH:/home/haskell/.cabal/bin
+
+COPY sti-helper.sh /
+CMD ["/sti-helper.sh"]

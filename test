@@ -1,0 +1,10 @@
+#!/bin/bash -eu
+
+cd image
+./build network
+cd ..
+sti build server `docker info 2>/dev/null | grep Username | cut -c11-`/network test -s file://`pwd`/sti
+docker run --name test -d -p 8080:8080 test
+curl -s localhost:8080 | grep "Welcome" || echo "failed"
+docker rm -f test
+docker rmi test

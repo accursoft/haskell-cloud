@@ -1,0 +1,3 @@
+#!/bin/bash -eu
+
+exec ~/.cabal/bin/server $PORT
