@@ -46,9 +46,9 @@ apt-get install binutils-gold
 
 cd /usr/local/lib/ghc*
 #strip is silent, tell the user what's happening
-echo "Striping libraries ..."
+echo "Stripping libraries ..."
 find -name '*.a' -print -exec strip --strip-unneeded {} +
-echo "Striping executables ..."
+echo "Stripping executables ..."
 ls bin/*
 strip bin/*
 
