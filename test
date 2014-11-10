@@ -1,10 +1,54 @@
 #!/bin/bash -eu
 
+username=`docker info 2>/dev/null | grep Username | cut -c11-`
+sti="file://`pwd`/sti"
+
+function check {
+  echo "  * Testing $1 ..."
+  sti build . $username/network test -s $sti --clean
+  docker run --name test -d -p 8080:8080 test
+  if curl -s localhost:8080 | grep -q $2; then
+    docker rm -f test
+    return
+  fi
+  echo "  * $1 FAILED"
+  exit 1
+}
+
+#build image
 cd image
 ./build network
+
+#create app
 cd ..
-sti build server `docker info 2>/dev/null | grep Username | cut -c11-`/network test -s file://`pwd`/sti
-docker run --name test -d -p 8080:8080 test
-curl -s localhost:8080 | grep "Welcome" || echo "failed"
-docker rm -f test
+mkdir server-test
+cp server/* server-test
+cd server-test
+check "create app" "Welcome"
+
+#cabal flags
+mkdir -p .sti/markers
+cp Main.hs test.hs
+sed -i 's/Welcome/Greetings/' test.hs
+echo "Flag A" >>server.cabal
+sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
+echo "b" >.sti/markers/cabal_flags
+check "enable flags" "Welcome"
+echo "-a" >>.sti/markers/cabal_flags
+check "unset flag" "Greetings"
+rm .sti/markers/cabal_flags
+
+#run_tests
+touch .sti/markers/run_tests
+echo "main = return ()" >test.hs
+echo "test-suite test
+  type:exitcode-stdio-1.0
+  main-is:test.hs" >>server.cabal
+sed -i 's/Welcome/Hello/' Main.hs
+check "run_tests" "Hello"
+
+#clear up
+cd ..
+rm -r server-test
 docker rmi test
+echo "PASSED"

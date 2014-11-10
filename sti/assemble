@@ -1,5 +1,26 @@
 #!/bin/bash -eu
 
 cd /tmp/src
-cabal install
+
+function marker {
+  [ -f ".sti/markers/$1" ]
+}
+
+if marker cabal_update || [ ! -d ~/.cabal/packages ]; then
+  marker cabal_update && echo "marker: cabal_update ..."
+  cabal update
+fi
+if marker run_tests; then
+  cabal install --enable-tests --only-dependencies
+  echo "marker: run_tests ..."
+  cabal test
+fi
+if marker cabal_flags; then
+  flags=$(cat .sti/markers/cabal_flags)
+  echo "marker: cabal_flags: $flags"
+  cabal install -f"$flags"
+else
+  cabal install
+fi
+
 rm -r /tmp/*
