@@ -10,17 +10,24 @@ ENV LANG en_US.UTF-8
 
 COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh
-ENV CABAL_CONFIG /.cabal/config
+
+COPY cabal-config.sh /tmp/
+RUN /tmp/cabal-config.sh
 
 COPY framework.sh /tmp/
 RUN /tmp/framework.sh <framework>
-
-RUN rm -rf /tmp/*
 
 #https://github.com/docker/docker/issues/7537
 RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell && \
     mkdir /home/haskell/sti && \
     chown haskell:haskell /home/haskell/sti
+
+USER haskell
+RUN /tmp/cabal-config.sh
+
+USER root
+RUN rm -rf /tmp/*
+
 USER haskell
 
 ENV PORT 8080

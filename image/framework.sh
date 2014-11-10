@@ -43,4 +43,4 @@ s|haddock-html: .*|haddock-html:|" {} +
 ghc-pkg recache
 
 #clean up
-rm -rf /.cabal/*/ ~
+rm -rf ~/.cabal
