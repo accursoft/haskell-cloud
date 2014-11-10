@@ -17,7 +17,7 @@ RUN /tmp/framework.sh <framework>
 
 RUN rm -rf /tmp/*
 
-RUN useradd -m haskell
+RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
 USER haskell
 
 ENV PORT 8080
