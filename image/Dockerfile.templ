@@ -17,12 +17,15 @@ RUN /tmp/framework.sh <framework>
 
 RUN rm -rf /tmp/*
 
-RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
+#https://github.com/docker/docker/issues/7537
+RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell && \
+    mkdir /home/haskell/sti && \
+    chown haskell:haskell /home/haskell/sti
 USER haskell
 
 ENV PORT 8080
 EXPOSE $PORT
 ENV PATH $PATH:/home/haskell/.cabal/bin
 
-COPY sti-helper.sh /
-CMD ["/sti-helper.sh"]
+COPY sti-helper.sh /home/haskell/sti/
+CMD ["/home/haskell/sti/sti-helper.sh"]

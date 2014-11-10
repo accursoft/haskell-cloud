@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
-[ "$1" == "assemble" ] && tar -C /tmp -xf -
+if [ "$1" == "assemble" ]; then
+  tar -C /tmp -xf -
+  mv /tmp/scripts/* /home/haskell/sti
+fi
 
-exec /tmp/scripts/$1
+exec /home/haskell/sti/$1

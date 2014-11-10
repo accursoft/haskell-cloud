@@ -2,3 +2,4 @@
 
 cd /tmp/src
 cabal install
+rm -r /tmp/*
