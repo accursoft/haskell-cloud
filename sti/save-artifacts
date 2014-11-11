@@ -1,2 +1,5 @@
-#!/bin/bash -eu
-
+tar -cO -C ~/.cabal . \
+--exclude="./config" \
+--exclude="./bin/server" \
+--exclude="./packages/stackage/00-index.cache" \
+--exclude="./packages/stackage/00-index.tar"
