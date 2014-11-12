@@ -23,6 +23,7 @@ cd image
 
 #create app
 cd ..
+rm -rf server-test
 cp -r server server-test
 cd server-test
 check "create app" "Welcome"
