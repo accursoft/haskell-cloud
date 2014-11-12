@@ -50,6 +50,12 @@ rm .sti/markers/run_tests
 #sequential build
 touch .sti/markers/sequential
 check "sequential build" "Welcome"
+rm .sti/markers/sequential
+
+#hooks
+echo "sed -i 's/Welcome/Greetings/' Main.hs" >.sti/hooks/before_build
+chmod +x .sti/hooks/before_build
+check "before_build hook" "Greetings"
 
 #clear up
 cd ..

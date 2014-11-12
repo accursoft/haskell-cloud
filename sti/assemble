@@ -12,6 +12,15 @@ function marker {
   [ -f ".sti/markers/$1" ]
 }
 
+function hook {
+  if [ -f ".sti/hooks/$1" ]; then
+    echo "running hook $1 ..."
+    .sti/hooks/$1
+  fi
+}
+
+hook before_build
+
 if marker cabal_update || [ ! -d ~/.cabal/packages ]; then
   marker cabal_update && echo "marker: cabal_update ..."
   cabal update
@@ -32,5 +41,7 @@ if marker cabal_flags; then
 else
   cabal install
 fi
+
+hook after_build
 
 rm -r /tmp/*
