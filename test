@@ -44,13 +44,12 @@ echo "main = return ()" >test.hs
 echo "test-suite test
   type:exitcode-stdio-1.0
   main-is:test.hs" >>server.cabal
-sed -i 's/Welcome/Hello/' Main.hs
-check "run_tests" "Hello"
+check "run_tests" "Welcome"
 rm .sti/markers/run_tests
 
 #sequential build
 touch .sti/markers/sequential
-check "sequential build" "Hello"
+check "sequential build" "Welcome"
 
 #clear up
 cd ..
