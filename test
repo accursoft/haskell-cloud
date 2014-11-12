@@ -23,13 +23,11 @@ cd image
 
 #create app
 cd ..
-mkdir server-test
-cp server/* server-test
+cp -r server server-test
 cd server-test
 check "create app" "Welcome"
 
 #cabal flags
-mkdir -p .sti/markers
 cp Main.hs test.hs
 sed -i 's/Welcome/Greetings/' test.hs
 echo "Flag A" >>server.cabal
