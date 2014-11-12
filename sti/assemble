@@ -21,6 +21,10 @@ if marker run_tests; then
   echo "marker: run_tests ..."
   cabal test
 fi
+if marker sequential; then
+  echo "marker: sequential"
+  sed -i "s|jobs| -- jobs|" ~/.cabal/config
+fi
 if marker cabal_flags; then
   flags=$(cat .sti/markers/cabal_flags)
   echo "marker: cabal_flags: $flags"

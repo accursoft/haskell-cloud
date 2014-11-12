@@ -46,6 +46,11 @@ echo "test-suite test
   main-is:test.hs" >>server.cabal
 sed -i 's/Welcome/Hello/' Main.hs
 check "run_tests" "Hello"
+rm .sti/markers/run_tests
+
+#sequential build
+touch .sti/markers/sequential
+check "sequential build" "Hello"
 
 #clear up
 cd ..
