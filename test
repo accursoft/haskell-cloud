@@ -64,8 +64,9 @@ check "use previously installed groups" "Welcome"
 touch .sti/markers/sequential
 check "sequential build" "Welcome"
 
+echo "PASSED"
+
 #clear up
 cd ..
 rm -r server-test
 docker rmi $gc
-echo "PASSED"
