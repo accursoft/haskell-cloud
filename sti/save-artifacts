@@ -1,5 +1,6 @@
-tar -cO -C ~/.cabal . \
---exclude="./config" \
---exclude="./bin/server" \
---exclude="./packages/stackage/00-index.cache" \
---exclude="./packages/stackage/00-index.tar"
+tar -cO -C ~ .cabal .ghc \
+--exclude=".cabal/config" \
+--exclude=".cabal/bin/server" \
+--exclude=".cabal/packages/stackage/00-index.cache" \
+--exclude=".cabal/packages/stackage/00-index.tar" \
+--exclude=".ghc/*/package.conf.d/package.cache"

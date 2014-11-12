@@ -1,9 +1,13 @@
 #!/bin/bash -eu
 
-if [ -d "/tmp/artifacts" ]; then
-  mv /tmp/artifacts/* ~/.cabal
+if [ -d "/tmp/artifacts/.cabal" ]; then
+  mv /tmp/artifacts/.cabal/* ~/.cabal
   cd ~/.cabal/packages/stackage
   gzip -d <00-index.tar.gz >00-index.tar
+fi
+if [ -d "/tmp/artifacts/.ghc" ]; then
+  mv /tmp/artifacts/.ghc ~
+  ghc-pkg recache --user
 fi
 
 cd /tmp/src

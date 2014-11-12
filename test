@@ -56,6 +56,10 @@ chmod +x .sti/hooks/before_build
 check "before_build hook" "Greetings"
 rm .sti/hooks/before_build
 
+#preserve installed packages
+sed -i 's/network/network,groups/' server.cabal
+check "use previously installed groups" "Welcome"
+
 #sequential build
 touch .sti/markers/sequential
 check "sequential build" "Welcome"
