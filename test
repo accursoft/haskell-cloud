@@ -6,7 +6,7 @@ gc=
 
 function check {
   echo "  * Testing $1 ..."
-  sti build . $username/network test -s $sti
+  sti build . $username/ghc-network test -s $sti
   gc="$gc $(docker inspect -f '{{.Id}}' test)"
   docker run --name test -d -p 8080:8080 test
   if curl -s localhost:8080 | grep -q $2; then
