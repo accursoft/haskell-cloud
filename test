@@ -50,15 +50,15 @@ echo "test-suite test
 check "run_tests" "Welcome"
 rm .sti/markers/run_tests
 
-#sequential build
-touch .sti/markers/sequential
-check "sequential build" "Welcome"
-rm .sti/markers/sequential
-
 #hooks
 echo "sed -i 's/Welcome/Greetings/' Main.hs" >.sti/hooks/before_build
 chmod +x .sti/hooks/before_build
 check "before_build hook" "Greetings"
+rm .sti/hooks/before_build
+
+#sequential build
+touch .sti/markers/sequential
+check "sequential build" "Welcome"
 
 #clear up
 cd ..
