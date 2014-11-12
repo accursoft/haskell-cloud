@@ -1,6 +1,10 @@
-tar -cO -C ~ .cabal .ghc \
+#!/bin/bash -eu
+
+cd ~
+shopt -s extglob
+exec tar -c .@(cabal|ghc) \
 --exclude=".cabal/config" \
 --exclude=".cabal/bin/server" \
---exclude=".cabal/packages/stackage/00-index.cache" \
---exclude=".cabal/packages/stackage/00-index.tar" \
+--exclude=".cabal/packages/*/00-index.cache" \
+--exclude=".cabal/packages/*/00-index.tar" \
 --exclude=".ghc/*/package.conf.d/package.cache"
