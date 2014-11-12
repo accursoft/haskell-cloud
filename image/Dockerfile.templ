@@ -6,7 +6,7 @@ RUN /tmp/ghc.sh
 
 #https://github.com/haskell/cabal/issues/1883
 #https://github.com/dotcloud/docker/issues/2424
-ENV LANG en_US.UTF-8
+ENV LANG C.UTF-8
 
 COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh
