@@ -44,7 +44,9 @@ touch .sti/markers/run_tests
 echo "main = return ()" >test.hs
 echo "test-suite test
   type:exitcode-stdio-1.0
-  main-is:test.hs" >>server.cabal
+  main-is:test.hs
+  build-depends:groups" >>server.cabal
+  #check that test dependencies are installed
 check "run_tests" "Welcome"
 rm .sti/markers/run_tests
 
