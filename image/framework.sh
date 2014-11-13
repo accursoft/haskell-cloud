@@ -35,12 +35,5 @@ case $1 in
     exit 1
 esac
 
-#remove references to non-existent documentation
-find /usr/local/lib/ghc-*/package.conf.d -name '*.conf' -exec sed -i "
-s|haddock-interfaces: .*|haddock-interfaces:|
-s|haddock-html: .*|haddock-html:|" {} +
-
-ghc-pkg recache
-
 #clean up
 rm -rf ~/.cabal
