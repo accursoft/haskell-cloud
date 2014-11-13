@@ -71,3 +71,5 @@ echo "PASSED"
 cd ..
 rm -r server-test
 docker rmi $gc
+
+docker run --rm $username/ghc-network cat /opt/sti/provides

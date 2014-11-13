@@ -5,35 +5,40 @@ cabal update
 case $1 in
   network)
     cabal install --global network
-    echo "network" >/tmp/provides
+    provides="network"
     ;;
   mflow)
     cabal install --global cpphs
     cabal install --global MFlow
-    echo "MFlow" >/tmp/provides
+    provides="MFlow"
     ;;
   yesod)
     cabal install --global yesod yesod-bin alex happy esqueleto
-    echo "yesod-\d|^esqueleto" >/tmp/provides
+    provides="yesod-[[:digit:]]\|    esqueleto"
     ;;
   snap)
     cabal install --global snap
-    echo "snap" >/tmp/provides
+    provides="snap"
     ;;
   scotty)
     cabal install --global scotty
-    echo "scotty" >/tmp/provides
+    provides="scotty"
     ;;
   happstack)
     cabal install --global happy
     cabal install --global hsx2hs
     cabal install --global happstack-foundation
-    echo "happstack-foundation" >/tmp/provides
+    provides="happstack-foundation"
     ;;
   *)
     echo Unknown build option $1
     exit 1
 esac
+
+mkdir /opt/sti
+echo "ghc-`ghc --numeric-version`" >/opt/sti/provides
+echo "cabal-install-`cabal --numeric-version`" >>/opt/sti/provides
+ghc-pkg list | grep " $provides-[[:digit:]]" | cut -c5- >>/opt/sti/provides
 
 #clean up
 rm -rf ~/.cabal

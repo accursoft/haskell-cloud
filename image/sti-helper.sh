@@ -2,7 +2,8 @@
 
 if [ "$1" == "assemble" ]; then
   tar -C /tmp -x
-  mv /tmp/scripts/* /home/haskell/sti
+  mkdir ~/sti
+  mv /tmp/scripts/* ~/sti
 fi
 
-exec /home/haskell/sti/$1
+exec ~/sti/$1

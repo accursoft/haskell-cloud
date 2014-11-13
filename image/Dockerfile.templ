@@ -17,10 +17,7 @@ RUN /tmp/cabal-config.sh
 COPY framework.sh /tmp/
 RUN /tmp/framework.sh <framework>
 
-#https://github.com/docker/docker/issues/7537
-RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell && \
-    mkdir /home/haskell/sti && \
-    chown haskell:haskell /home/haskell/sti
+RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
 
 USER haskell
 RUN /tmp/cabal-config.sh
@@ -34,5 +31,5 @@ ENV PORT 8080
 EXPOSE $PORT
 ENV PATH $PATH:/home/haskell/.cabal/bin
 
-COPY sti-helper.sh /home/haskell/sti/
-CMD ["/home/haskell/sti/sti-helper.sh"]
+COPY sti-helper.sh /opt/sti/
+CMD ["/opt/sti/sti-helper.sh"]
