@@ -9,6 +9,7 @@ function check {
   sti build . $username/ghc-network test -s $sti
   gc="$gc $(docker inspect -f '{{.Id}}' test)"
   docker run --name test -d -p 8080:8080 test
+  sleep 0.01
   if curl -s localhost:8080 | grep -q $2; then
     docker rm -f test
     return
