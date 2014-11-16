@@ -18,6 +18,15 @@ function check {
   exit 1
 }
 
+function check_build {
+  echo "  * Testing $1 ..."
+  sti build . $username/ghc-network test -s $sti | tee ../build.log
+  gc="$gc $(docker inspect -f '{{.Id}}' test)"
+  grep -q $2 ../build.log && return
+  echo "  * $1 FAILED"
+  exit 1
+}
+
 #build image
 cd image
 ./build network
@@ -59,17 +68,17 @@ rm .sti/hooks/before_build
 
 #preserve installed packages
 sed -i 's/network/network,groups/' server.cabal
-check "use previously installed groups" "Welcome"
+check_build "use previously installed package" "-v \"groups\""
 
 #sequential build
 touch .sti/markers/sequential
-check "sequential build" "Welcome"
+check_build "sequential build" "Compiling"
 
 echo "PASSED"
 
 #clear up
 cd ..
-rm -r server-test
+rm -r server-test build.log
 docker rmi $gc
 
 docker run --rm $username/ghc-network cat /opt/sti/provides
