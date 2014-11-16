@@ -61,10 +61,10 @@ check "run_tests" "Welcome"
 rm .sti/markers/run_tests
 
 #hooks
-echo "sed -i 's/Welcome/Greetings/' Main.hs" >.sti/hooks/before_build
-chmod +x .sti/hooks/before_build
-check "before_build hook" "Greetings"
-rm .sti/hooks/before_build
+echo "sed -i 's/Welcome/Greetings/' Main.hs" >.sti/hooks/pre_build
+chmod +x .sti/hooks/pre_build
+check "pre_build hook" "Greetings"
+rm .sti/hooks/pre_build
 
 #preserve installed packages
 sed -i 's/network/network,groups/' server.cabal

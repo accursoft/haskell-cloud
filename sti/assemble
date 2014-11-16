@@ -33,7 +33,7 @@ if marker sequential; then
   sed -i "s|jobs| -- jobs|" ~/.cabal/config
 fi
 
-hook before_build
+hook pre_build
 
 if marker run_tests; then
   echo "marker: run_tests ..."
@@ -48,6 +48,6 @@ else
   cabal install
 fi
 
-hook after_build
+hook post_build
 
 rm -r /tmp/*
