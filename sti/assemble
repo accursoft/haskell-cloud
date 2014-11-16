@@ -50,4 +50,9 @@ fi
 
 hook post_build
 
-rm -r /tmp/*
+#clean up
+cd ~
+rm -rf /tmp/* \
+  .cabal/packages/*/00-index.cache \
+  .cabal/packages/*/00-index.tar \
+  .ghc/*/package.conf.d/package.cache
