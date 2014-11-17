@@ -73,6 +73,11 @@ check_build "use previously installed package" "-v \"groups\""
 #sequential build
 touch .sti/markers/sequential
 check_build "sequential build" "Compiling"
+rm .sti/markers/sequential
+
+#cabal_update
+touch .sti/markers/cabal_update
+check_build "cabal_update" "Downloading"
 
 echo "PASSED"
 
