@@ -31,7 +31,11 @@ function hook {
 if marker cabal_update || [ ! -d ~/.cabal/packages ]; then
   cabal update
 fi
-marker sequential && sed -i "s|jobs| -- jobs|" ~/.cabal/config
+if marker sequential; then
+  sed -i "s|jobs| -- jobs|" ~/.cabal/config
+else
+  echo "$(nproc) CPUs available for parallel builds"
+fi
 
 hook pre_build
 
