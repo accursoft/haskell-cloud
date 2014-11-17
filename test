@@ -8,10 +8,10 @@ function check {
   echo "  * Testing $1 ..."
   sti build . $username/ghc-network test -s $sti
   gc="$gc $(docker inspect -f '{{.Id}}' test)"
-  docker run --name test -d -p 8080:8080 test
+  docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
   if curl -s localhost:8080 | grep -q $2; then
-    docker rm -f test
+    docker rm -f test >/dev/null
     return
   fi
   echo "  * $1 FAILED"
@@ -90,6 +90,6 @@ echo "PASSED"
 #clear up
 cd ..
 rm -r server-test build.log
-docker rmi $gc
+docker rmi $gc >/dev/null
 
 docker run --rm $username/ghc-network cat /opt/sti/provides
