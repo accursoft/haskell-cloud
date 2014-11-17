@@ -78,6 +78,12 @@ rm .sti/markers/sequential
 #cabal_update
 touch .sti/markers/cabal_update
 check_build "cabal_update" "Downloading"
+rm .sti/markers/cabal_update
+
+#logs
+touch .sti/markers/logs
+check_build "logs" "Compiling"
+rm .sti/markers/logs
 
 echo "PASSED"
 

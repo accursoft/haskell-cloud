@@ -4,5 +4,4 @@ cd ~
 shopt -s extglob
 exec tar -c .@(cabal|ghc) \
 --exclude=".cabal/config" \
---exclude=".cabal/logs" \
 --exclude=".cabal/bin/server"

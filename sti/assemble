@@ -47,6 +47,12 @@ if marker cabal_flags; then
 else
   cabal install
 fi
+if marker logs; then
+  echo "marker: logs"
+  cd ~/.cabal/logs
+  tail -n+1 $(ls -I build.log -rt)
+  cd - >/dev/null
+fi
 
 hook post_build
 
@@ -55,4 +61,5 @@ cd ~
 rm -rf /tmp/* \
   .cabal/packages/*/00-index.cache \
   .cabal/packages/*/00-index.tar \
+  .cabal/logs \
   .ghc/*/package.conf.d/package.cache
