@@ -13,7 +13,11 @@ fi
 cd /tmp/src
 
 function marker {
-  [ -f ".sti/markers/$1" ]
+  if [ -f ".sti/markers/$1" ]; then
+    echo "marker: $1"
+  else
+    return 1
+  fi
 }
 
 function hook {
@@ -25,30 +29,24 @@ function hook {
 
 #cabal stuff
 if marker cabal_update || [ ! -d ~/.cabal/packages ]; then
-  marker cabal_update && echo "marker: cabal_update ..."
   cabal update
 fi
-if marker sequential; then
-  echo "marker: sequential"
-  sed -i "s|jobs| -- jobs|" ~/.cabal/config
-fi
+marker sequential && sed -i "s|jobs| -- jobs|" ~/.cabal/config
 
 hook pre_build
 
 if marker run_tests; then
-  echo "marker: run_tests ..."
   cabal install --enable-tests --only-dependencies
   cabal test
 fi
 if marker cabal_flags; then
   flags=$(cat .sti/markers/cabal_flags)
-  echo "marker: cabal_flags: $flags"
+  echo "$flags"
   cabal install -f"$flags"
 else
   cabal install
 fi
 if marker logs; then
-  echo "marker: logs"
   cd ~/.cabal/logs
   tail -n+1 $(ls -I build.log -rt)
   cd - >/dev/null
