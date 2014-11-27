@@ -33,9 +33,10 @@ cd image
 
 #create app
 cd ..
-rm -rf server-test
-cp -r server server-test
-cd server-test
+rm -rf server
+curl -s http://code.accursoft.com/haskell-cloud-template/get/default.tar.bz2 | tar xj
+mv accursoft-haskell-cloud-template-* server
+cd server
 check "create app" "Welcome"
 
 #cabal flags
@@ -89,7 +90,7 @@ echo "PASSED"
 
 #clear up
 cd ..
-rm -r server-test build.log
+rm -r server build.log
 docker rmi $gc >/dev/null
 
 docker run --rm $username/ghc-network cat /opt/sti/provides

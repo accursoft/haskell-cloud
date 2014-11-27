@@ -1,7 +1,0 @@
-Create (empty) files in this directory to modify the build process. The following markers are available:
-
-cabal_update: Run cabal update before building.
-run_tests: Run cabal test before installing.
-cabal_flags: The contents of this file are passed to cabal install -f.
-sequential: Disable parallel builds.
-logs: Print detailed logs after build.
