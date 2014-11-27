@@ -41,7 +41,7 @@ check "create app" "Welcome"
 
 #cabal flags
 cp Main.hs test.hs
-sed -i 's/Welcome/Greetings/' test.hs
+sed -i 's/handle response/handle "Greetings"/' test.hs
 echo "Flag A" >>server.cabal
 sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
 echo "b" >.sti/markers/cabal_flags
@@ -62,7 +62,7 @@ check "run_tests" "Welcome"
 rm .sti/markers/run_tests
 
 #hooks
-echo "sed -i 's/Welcome/Greetings/' Main.hs" >.sti/hooks/pre_build
+echo "sed -i 's/Welcome/Greetings/' response" >.sti/hooks/pre_build
 chmod +x .sti/hooks/pre_build
 check "pre_build hook" "Greetings"
 rm .sti/hooks/pre_build
