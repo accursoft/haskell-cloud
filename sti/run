@@ -1,4 +1,8 @@
 #!/bin/bash -eu
 
+if [ -f "/home/haskell/sti/pre_run" ]; then
+  echo "running pre_run hook ..."
+  /home/haskell/sti/pre_run
+fi
 echo "Starting the server ..."
 exec ~/.cabal/bin/server $PORT

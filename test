@@ -62,7 +62,7 @@ echo "test-suite test
 check "run_tests" "Welcome"
 rm .sti/markers/run_tests
 
-#hooks
+#pre_build hook
 echo "sed -i 's/Welcome/Greetings/' response" >.sti/hooks/pre_build
 chmod +x .sti/hooks/pre_build
 check "pre_build hook" "Greetings"
@@ -86,6 +86,12 @@ rm .sti/markers/cabal_update
 touch .sti/markers/logs
 check_build "logs" "Compiling"
 rm .sti/markers/logs
+
+#pre_run hook
+echo "sed -i 's/Welcome/Greetings/' ~/.cabal/share/*/server-*/response" >.sti/hooks/pre_run
+chmod +x .sti/hooks/pre_run
+check "pre_run hook" "Greetings"
+rm .sti/hooks/pre_run
 
 echo "PASSED"
 
