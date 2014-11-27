@@ -37,6 +37,7 @@ rm -rf server
 curl -s http://code.accursoft.com/haskell-cloud-template/get/default.tar.bz2 | tar xj
 mv accursoft-haskell-cloud-template-* server
 cd server
+rm .sti/hooks/* .sti/markers/*
 check "create app" "Welcome"
 
 #cabal flags
