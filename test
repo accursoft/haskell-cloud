@@ -21,7 +21,7 @@ function check_build {
   echo "  * Testing $1 ..."
   sti build . $username/ghc-network test | tee ../build.log
   gc="$gc $(docker inspect -f '{{.Id}}' test)"
-  grep -q $2 ../build.log && return
+  grep -q "$2" ../build.log && return
   echo "  * $1 FAILED"
   exit 1
 }
@@ -69,7 +69,11 @@ rm .sti/hooks/pre_build
 
 #preserve installed packages
 sed -i 's/network/network,groups/' server.cabal
-check_build "use previously installed package" "-v \"groups\""
+check_build "use previously installed package" "server"
+if grep -q "groups2" ../build.log; then
+  echo "  * package groups from earlier build was not reused - FAILED"
+  exit 1
+fi
 
 #sequential build
 touch .sti/markers/sequential
