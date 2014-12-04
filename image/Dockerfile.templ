@@ -31,5 +31,6 @@ ENV PORT 8080
 EXPOSE $PORT
 ENV PATH $PATH:/home/haskell/.cabal/bin
 
-COPY sti-helper.sh /opt/sti/
-CMD ["/opt/sti/sti-helper.sh"]
+COPY sti /opt/sti/
+ENV STI_SCRIPTS_URL image://opt/sti
+CMD ["/opt/sti/sti-helper"]

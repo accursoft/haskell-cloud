@@ -1,12 +1,11 @@
 #!/bin/bash -eu
 
 username=`docker info 2>/dev/null | grep Username | cut -c11-`
-sti="file://`pwd`/sti"
 gc=
 
 function check {
   echo "  * Testing $1 ..."
-  sti build . $username/ghc-network test -s $sti
+  sti build . $username/ghc-network test
   gc="$gc $(docker inspect -f '{{.Id}}' test)"
   docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
@@ -20,7 +19,7 @@ function check {
 
 function check_build {
   echo "  * Testing $1 ..."
-  sti build . $username/ghc-network test -s $sti | tee ../build.log
+  sti build . $username/ghc-network test | tee ../build.log
   gc="$gc $(docker inspect -f '{{.Id}}' test)"
   grep -q $2 ../build.log && return
   echo "  * $1 FAILED"
