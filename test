@@ -1,12 +1,10 @@
 #!/bin/bash -eu
 
 username=`docker info 2>/dev/null | grep Username | cut -c11-`
-gc=
 
 function check {
   echo "  * Testing $1 ..."
-  sti build . $username/ghc-network test
-  gc="$gc $(docker inspect -f '{{.Id}}' test)"
+  sti build --rm . $username/ghc-network test
   docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
   if curl -s localhost:8080 | grep -q $2; then
@@ -19,8 +17,7 @@ function check {
 
 function check_build {
   echo "  * Testing $1 ..."
-  sti build . $username/ghc-network test | tee ../build.log
-  gc="$gc $(docker inspect -f '{{.Id}}' test)"
+  sti build --rm . $username/ghc-network test | tee ../build.log
   grep -q "$2" ../build.log && return
   echo "  * $1 FAILED"
   exit 1
@@ -101,6 +98,6 @@ echo "PASSED"
 #clear up
 cd ..
 rm -r server build.log
-docker rmi $gc >/dev/null
+docker rmi test >/dev/null
 
 docker run --rm $username/ghc-network cat /opt/sti/provides
