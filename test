@@ -4,7 +4,7 @@ username=`docker info 2>/dev/null | grep Username | cut -c11-`
 
 function check {
   echo "  * Testing $1 ..."
-  sti build --rm . $username/ghc-network test
+  sti build --rm --forcePull=false . $username/ghc-network test
   docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
   if curl -s localhost:8080 | grep -q $2; then
@@ -17,7 +17,7 @@ function check {
 
 function check_build {
   echo "  * Testing $1 ..."
-  sti build --rm . $username/ghc-network test | tee ../build.log
+  sti build --rm --forcePull=false . $username/ghc-network test | tee ../build.log
   grep -q "$2" ../build.log && return
   echo "  * $1 FAILED"
   exit 1
