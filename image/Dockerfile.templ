@@ -7,21 +7,16 @@ RUN /tmp/ghc.sh
 COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh
 
-COPY cabal-config.sh /tmp/
-RUN /tmp/cabal-config.sh
-
 COPY framework.sh /tmp/
 RUN /tmp/framework.sh <framework>
 
-RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
-
-USER haskell
-RUN /tmp/cabal-config.sh
-
-USER root
 RUN rm -rf /tmp/*
 
+RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
 USER haskell
+
+#generate default cabal config
+RUN cabal get
 
 ENV PORT 8080
 EXPOSE $PORT
