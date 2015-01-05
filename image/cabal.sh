@@ -6,8 +6,8 @@ cd cabal-install-*
 
 #build
 export EXTRA_CONFIGURE_OPTS="--ghc-option=-j"
-./bootstrap.sh --no-doc
-mv ~/.cabal/bin/cabal /usr/local/bin
+./bootstrap.sh --no-doc --sandbox
+mv .cabal-sandbox/bin/cabal /usr/local/bin
 
-#remove the packages installed by cabal-install and other cruft, as they might not be the best ones to use when we install the frameworks
-rm -rf /cabal-install-* ~
+#remove the sandbox
+rm -rf /cabal-install-* ~/.cabal
