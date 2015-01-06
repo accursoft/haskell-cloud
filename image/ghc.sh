@@ -24,7 +24,7 @@ apt-get install -y $dependencies $build_dependencies
 
 #download ghc
 echo "verbose=off" >>/etc/wgetrc
-wget -O- https://www.haskell.org/ghc/dist/7.8.3/ghc-7.8.3-src.tar.xz | tar xJ
+wget -O- http://downloads.haskell.org/~ghc/7.8.4/ghc-7.8.4-src.tar.xz | tar xJ
 cd ghc-*
 
 #build
