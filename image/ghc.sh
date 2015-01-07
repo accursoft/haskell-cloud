@@ -17,6 +17,7 @@ build_dependencies="
   ghc
   make
   ncurses-dev
+  xz-utils
   "
 
 apt-get update
@@ -39,10 +40,6 @@ GhcRTSWays = thr" > mk/build.mk
 
 make -j$(nproc)
 make install
-
-#switch on gold linker
-#we can't do this earlier because the apt-installed ghc can't use it
-apt-get install binutils-gold
 
 cd /usr/local/lib/ghc*
 #strip is silent, tell the user what's happening

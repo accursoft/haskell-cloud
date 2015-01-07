@@ -3,7 +3,7 @@
 if [ -d "/tmp/artifacts/.cabal" ]; then
   mv /tmp/artifacts/.cabal/* ~/.cabal
   cd ~/.cabal/packages/*
-  gzip -d <00-index.tar.gz >00-index.tar
+  gzip -dk 00-index.tar.gz
 fi
 if [ -d "/tmp/artifacts/.ghc" ]; then
   mv /tmp/artifacts/.ghc ~

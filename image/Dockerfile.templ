@@ -1,8 +1,13 @@
-FROM debian:wheezy
+FROM debian:jessie
 MAINTAINER Gideon Sireling <gideon@accursoft.com>
 
 COPY ghc.sh /tmp/
 RUN /tmp/ghc.sh
+
+#switch on gold linker
+#we can't do this earlier because the apt-installed ghc can't use it
+#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718814#15
+RUN update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
 
 COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh
