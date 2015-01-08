@@ -3,10 +3,9 @@
 # install prerequisites
 
 dependencies="
-  ca-certificates
+  curl
   gcc
   libgmp-dev
-  wget
   zlib1g-dev
   "
 #zlib-dev is only needed later by cabal-install
@@ -24,8 +23,10 @@ apt-get update
 apt-get install -y $dependencies $build_dependencies
 
 #download ghc
-echo "verbose=off" >>/etc/wgetrc
-wget -O- http://downloads.haskell.org/~ghc/7.8.4/ghc-7.8.4-src.tar.xz | tar xJ
+echo "silent
+show-error" >>~/.curlrc
+echo "Downloading GHC ..."
+curl http://downloads.haskell.org/~ghc/7.8.4/ghc-7.8.4-src.tar.xz | tar xJ
 cd ghc-*
 
 #build
