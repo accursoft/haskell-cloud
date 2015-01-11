@@ -59,7 +59,8 @@ fi
 hook post_build
 
 if [ -f ".sti/hooks/pre_run" ]; then
-  mv .sti/hooks/pre_run ~/sti
+  mkdir ~/.sti
+  mv .sti/hooks/pre_run ~/.sti
   echo "installed pre_run hook"
 fi
 
