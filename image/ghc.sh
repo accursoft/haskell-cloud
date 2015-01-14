@@ -61,4 +61,5 @@ mv ghcpkg ghc-pkg
 #clean up
 apt-get purge --auto-remove -y $build_dependencies
 apt-get clean
-rm -rf /ghc-* /var/lib/apt/lists/*
+cd /usr/share
+rm -r /ghc-* /var/lib/apt/lists/* doc man locale
