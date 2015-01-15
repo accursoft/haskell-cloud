@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
 if [ -d "/tmp/artifacts/.cabal" ]; then
   mv /tmp/artifacts/.cabal/* ~/.cabal
@@ -12,7 +12,7 @@ fi
 
 cd /tmp/src
 
-function marker {
+marker() {
   if [ -f ".sti/markers/$1" ]; then
     echo "marker: $1"
   else
@@ -20,7 +20,7 @@ function marker {
   fi
 }
 
-function hook {
+hook() {
   if [ -f ".sti/hooks/$1" ]; then
     echo "running hook $1 ..."
     .sti/hooks/$1

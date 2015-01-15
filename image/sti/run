@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
 if [ -f "/home/haskell/.sti/pre_run" ]; then
   echo "running pre_run hook ..."

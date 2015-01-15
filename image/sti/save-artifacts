@@ -1,8 +1,7 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
 cd ~
-shopt -s extglob
-exec tar -c .@(cabal|ghc) \
+exec tar -c $(ls -d .cabal .ghc 2>/dev/null) \
 --exclude=".cabal/config" \
 --exclude=".cabal/share/*/server-*" \
 --exclude=".cabal/bin/server"
