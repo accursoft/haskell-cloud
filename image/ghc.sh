@@ -20,7 +20,7 @@ build_dependencies="
   "
 
 apt-get update
-apt-get install -y $dependencies $build_dependencies
+apt-get install -y perl-base $dependencies $build_dependencies
 
 #download ghc
 echo "silent
@@ -60,6 +60,7 @@ mv ghcpkg ghc-pkg
 
 #clean up
 apt-get purge --auto-remove -y $build_dependencies
+echo "Yes, do as I say!" | apt-get purge perl-base
 apt-get clean
 cd /usr/share
 rm -r /ghc-* /var/lib/apt/lists/* doc man locale
