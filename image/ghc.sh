@@ -66,5 +66,10 @@ mv ghcpkg ghc-pkg
 apt-get purge --auto-remove -y $build_dependencies
 echo "Yes, do as I say!" | apt-get purge perl-base
 apt-get clean
+
+#archive copyrights
 cd /usr/share
+gunzip copyrights.tar.gz
+tar -rf copyrights.tar doc/*/copyright
+gzip copyrights.tar
 rm -r /ghc-* /var/lib/apt/lists/* doc man locale
