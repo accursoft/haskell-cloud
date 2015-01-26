@@ -7,7 +7,7 @@ function check {
   sti build --rm --forcePull=false --loglevel=2 . $username/ghc-network test
   docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
-  if curl -s localhost:8080 | grep -q $2; then
+  if curl -sS localhost:8080 | grep -q $2; then
     docker rm -f test >/dev/null
     return
   fi
