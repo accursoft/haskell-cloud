@@ -6,6 +6,7 @@ dependencies="
   ca-certificates
   curl
   gcc
+  libffi-dev
   libgmp-dev
   passwd
   zlib1g-dev
@@ -34,7 +35,7 @@ curl http://downloads.haskell.org/~ghc/7.8.4/ghc-7.8.4-src.tar.xz | tar xJ
 cd ghc-*
 
 #build
-./configure
+./configure --with-system-libffi
 
 echo "V = 0
 SRC_HC_OPTS = -O -H64m
