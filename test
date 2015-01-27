@@ -27,6 +27,9 @@ function check_build {
 cd image
 ./build network
 
+#test may fail if not given a chance to catch its breath
+sleep 0.01
+
 #create app
 cd ..
 rm -rf server
