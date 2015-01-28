@@ -13,7 +13,7 @@ case $1 in
     provides="MFlow"
     ;;
   yesod)
-    cabal install --global yesod yesod-bin alex happy esqueleto
+    cabal install --global yesod esqueleto
     provides="yesod-[[:digit:]]\|    esqueleto"
     ;;
   snap)
