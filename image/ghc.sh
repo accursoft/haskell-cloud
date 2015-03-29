@@ -31,13 +31,14 @@ apt-get install -y --no-install-recommends $dependencies $build_dependencies
 echo "silent
 show-error" >>~/.curlrc
 echo "Downloading GHC ..."
-curl http://downloads.haskell.org/~ghc/7.8.4/ghc-7.8.4-src.tar.xz | tar xJ
+curl https://downloads.haskell.org/~ghc/7.10-latest/ghc-7.10.1-src.tar.xz | tar xJ
 cd ghc-*
 
 #build
 ./configure --with-system-libffi
 
 echo "V = 0
+GhcHcOpts =
 SRC_HC_OPTS = -O -H64m
 HADDOCK_DOCS = NO
 DYNAMIC_GHC_PROGRAMS = NO
