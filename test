@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 username=`docker info 2>/dev/null | grep Username | cut -c11-`
-sti="sti build --rm --forcePull=false --loglevel=2 --incremental . $username/ghc-network test"
+sti="sti build --rm --forcePull=false --incremental . $username/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
