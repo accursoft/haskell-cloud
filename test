@@ -1,10 +1,11 @@
 #!/bin/bash -eu
 
 username=`docker info 2>/dev/null | grep Username | cut -c11-`
+sti="sti build --rm --forcePull=false --loglevel=2 --incremental . $username/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
-  sti build --rm --forcePull=false --loglevel=2 --incremental . $username/ghc-network test
+  $sti
   docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
   if curl -sS localhost:8080 | grep -q $2; then
@@ -17,7 +18,7 @@ function check {
 
 function check_build {
   echo "  * Testing $1 ..."
-  sti build --rm --forcePull=false --loglevel=2 --incremental . $username/ghc-network test |& tee ../build.log
+  $sti |& tee ../build.log
   grep -q "$2" ../build.log && return
   echo "  * $1 FAILED"
   exit 1
