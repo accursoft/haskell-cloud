@@ -21,7 +21,7 @@ RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
 USER haskell
 
 #generate default cabal config
-RUN cabal get
+RUN cabal get && sed -i 's/-- library-for-ghci:/library-for-ghci: False/' /home/haskell/.cabal/config
 
 ENV PORT 8080
 EXPOSE $PORT

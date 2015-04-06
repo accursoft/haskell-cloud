@@ -43,6 +43,7 @@ SRC_HC_OPTS = -O -H64m
 HADDOCK_DOCS = NO
 DYNAMIC_GHC_PROGRAMS = NO
 SplitObjs = NO
+GhcWithInterpreter = NO
 GhcLibWays = v
 GhcRTSWays = thr" > mk/build.mk
 
@@ -59,9 +60,8 @@ strip bin/*
 
 #clean up bin
 cd ../../bin
-rm hp2ps runghc ghc ghci ghc-pkg
+rm hp2ps runghc ghc ghc-pkg
 mv ghc-pkg-* ghcpkg
-mv ghci-* ghci
 mv ghc-* ghc
 mv runghc-* runghc
 mv ghcpkg ghc-pkg

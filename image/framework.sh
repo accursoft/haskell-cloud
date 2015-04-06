@@ -1,33 +1,35 @@
 #!/bin/sh -eu
 
+cabal="cabal install --global --disable-library-for-ghci"
+
 cabal update
 
 case $1 in
   network)
-    cabal install --global network
+    $cabal network
     provides="network"
     ;;
   mflow)
-    cabal install --global cpphs
-    cabal install --global MFlow
+    $cabal cpphs
+    $cabal MFlow
     provides="MFlow"
     ;;
   yesod)
-    cabal install --global yesod esqueleto
+    $cabal yesod esqueleto
     provides="yesod-[[:digit:]]\|    esqueleto"
     ;;
   snap)
-    cabal install --global snap
+    $cabal snap
     provides="snap"
     ;;
   scotty)
-    cabal install --global scotty
+    $cabal scotty
     provides="scotty"
     ;;
   happstack)
-    cabal install --global happy
-    cabal install --global hsx2hs
-    cabal install --global happstack-foundation
+    $cabal happy
+    $cabal hsx2hs
+    $cabal happstack-foundation
     provides="happstack-foundation"
     ;;
   *)
