@@ -34,6 +34,10 @@ echo "Downloading GHC ..."
 curl https://downloads.haskell.org/~ghc/7.10-latest/ghc-7.10.1-src.tar.xz | tar xJ
 cd ghc-*
 
+#hpc and hp2ps not needed
+#runghc does not work with non-interactive build
+sed -i '/BUILD_DIRS += utils\/\(hpc\|runghc\|hp2ps\)/d' ghc.mk
+
 #build
 ./configure --with-system-libffi
 
@@ -60,10 +64,9 @@ strip bin/*
 
 #clean up bin
 cd ../../bin
-rm hp2ps runghc ghc ghc-pkg
+rm ghc ghc-pkg
 mv ghc-pkg-* ghcpkg
 mv ghc-* ghc
-mv runghc-* runghc
 mv ghcpkg ghc-pkg
 
 #clean up
