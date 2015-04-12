@@ -71,17 +71,5 @@ mv ghcpkg ghc-pkg
 
 #clean up
 apt-get purge --auto-remove -y $build_dependencies
-apt-get clean
-
-#archive copyrights
-cd /usr/share
-gunzip copyrights.tar.gz
-tar -rf copyrights.tar doc/*/copyright
-gzip copyrights.tar
-rm -r \
-  /ghc-* \
-  /var/lib/apt/lists/* \
-  doc \
-  man \
-  locale \
-  /var/log/*
+/opt/post-apt
+rm -r /ghc-*
