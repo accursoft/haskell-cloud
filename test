@@ -1,7 +1,6 @@
 #!/bin/bash -eu
 
-username=`docker info 2>/dev/null | grep Username | cut -c11-`
-sti="sti build --rm --forcePull=false --incremental . $username/ghc-network test"
+sti="sti build --rm --forcePull=false --incremental . accursoft/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
@@ -104,4 +103,4 @@ cd ..
 rm -r server build.log
 docker rmi test >/dev/null
 
-docker run --rm $username/ghc-network cat /opt/sti/provides
+docker run --rm accursoft/ghc-network cat /opt/sti/provides
