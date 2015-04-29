@@ -1,5 +1,7 @@
 #!/bin/sh -eu
 
+export DEBIAN_FRONTEND=noninteractive
+
 # install prerequisites
 
 dependencies="
