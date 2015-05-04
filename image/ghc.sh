@@ -56,22 +56,28 @@ GhcRTSWays = thr" > mk/build.mk
 make -j$(nproc)
 make install
 
-cd /usr/local/lib/ghc*
-#strip is silent, tell the user what's happening
-echo "Stripping libraries ..."
-find -name '*.a' -print -exec strip --strip-unneeded {} +
-echo "Stripping executables ..."
-ls bin/*
-strip bin/*
-
 #clean up bin
-cd ../../bin
+cd /usr/local/bin
 rm ghc ghc-pkg
 mv ghc-pkg-* ghcpkg
 mv ghc-* ghc
 mv ghcpkg ghc-pkg
 
+#remove ghc-bundled Cabal, will install latest with cabal-install
+ghc-pkg unregister Cabal
+
 #clean up
 apt-get purge --auto-remove -y $build_dependencies
 /opt/post-apt
-rm -r /ghc-*
+rm -r /ghc-* \
+      /usr/local/lib/ghc-*/Cabal_* \
+      /usr/local/share/doc/ghc/html/libraries/Cabal-*
+
+#strip
+cd /usr/local/lib/ghc*
+#tell the user what's happening
+echo "Stripping libraries ..."
+find -name '*.a' -print -exec strip --strip-unneeded {} +
+echo "Stripping executables ..."
+ls bin/*
+strip bin/*
