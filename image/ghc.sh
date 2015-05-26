@@ -42,16 +42,7 @@ sed -i '/BUILD_DIRS += utils\/\(hpc\|runghc\|hp2ps\)/d' ghc.mk
 
 #build
 ./configure --with-system-libffi
-
-echo "V = 0
-GhcHcOpts =
-SRC_HC_OPTS = -O -H64m
-HADDOCK_DOCS = NO
-DYNAMIC_GHC_PROGRAMS = NO
-SplitObjs = NO
-GhcWithInterpreter = NO
-GhcLibWays = v
-GhcRTSWays = thr" > mk/build.mk
+mv /tmp/build.mk mk
 
 make -j$(nproc)
 make install
