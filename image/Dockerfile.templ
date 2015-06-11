@@ -24,8 +24,9 @@ USER haskell
 RUN cabal get && sed -i 's/-- library-for-ghci:/library-for-ghci: False/' /home/haskell/.cabal/config
 
 ENV PORT=8080 \
-    PATH=$PATH:/home/haskell/.cabal/bin \
-    STI_SCRIPTS_URL=image://opt/sti
+    PATH=$PATH:/home/haskell/.cabal/bin
+
+LABEL io.s2i.scripts-url=image://opt/sti
 
 EXPOSE $PORT
 COPY sti /opt/sti/
