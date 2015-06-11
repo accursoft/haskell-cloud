@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-sti="sti build --rm --forcePull=false --incremental . accursoft/ghc-network test"
+sti="sti build --rm --force-pull=false --incremental . accursoft/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
