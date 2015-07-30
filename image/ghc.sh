@@ -33,7 +33,7 @@ apt-get install -y --no-install-recommends $dependencies $build_dependencies
 echo "silent
 show-error" >>~/.curlrc
 echo "Downloading GHC ..."
-curl https://downloads.haskell.org/~ghc/7.10-latest/ghc-7.10.1-src.tar.xz | tar xJ
+curl https://downloads.haskell.org/~ghc/7.10.2/ghc-7.10.2-src.tar.xz | tar xJ
 cd ghc-*
 
 #hpc and hp2ps not needed
