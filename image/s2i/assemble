@@ -13,7 +13,7 @@ fi
 cd /tmp/src
 
 marker() {
-  if [ -f ".sti/markers/$1" ]; then
+  if [ -f ".s2i/markers/$1" ]; then
     echo "marker: $1"
   else
     return 1
@@ -21,9 +21,9 @@ marker() {
 }
 
 hook() {
-  if [ -f ".sti/hooks/$1" ]; then
+  if [ -f ".s2i/hooks/$1" ]; then
     echo "running hook $1 ..."
-    .sti/hooks/$1
+    .s2i/hooks/$1
   fi
 }
 
@@ -44,7 +44,7 @@ if marker run_tests; then
   cabal test
 fi
 if marker cabal_flags; then
-  flags=$(cat .sti/markers/cabal_flags)
+  flags=$(cat .s2i/markers/cabal_flags)
   echo "$flags"
   cabal install -f"$flags"
 else
@@ -58,9 +58,9 @@ fi
 
 hook post_build
 
-if [ -f ".sti/hooks/pre_run" ]; then
-  mkdir ~/.sti
-  mv .sti/hooks/pre_run ~/.sti
+if [ -f ".s2i/hooks/pre_run" ]; then
+  mkdir ~/.s2i
+  mv .s2i/hooks/pre_run ~/.s2i
   echo "installed pre_run hook"
 fi
 

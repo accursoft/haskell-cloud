@@ -1,10 +1,10 @@
 #!/bin/bash -eu
 
-sti="sti build --rm --force-pull=false --incremental . accursoft/ghc-network test"
+s2i="s2i build --rm --force-pull=false --incremental . accursoft/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
-  $sti
+  $s2i
   docker run --name test -d -p 8080:8080 test >/dev/null
   sleep 0.01
   if curl -sS localhost:8080 | grep -q $2; then
@@ -17,7 +17,7 @@ function check {
 
 function check_build {
   echo "  * Testing $1 ..."
-  $sti |& tee ../build.log
+  $s2i |& tee ../build.log
   grep -q "$2" ../build.log && return
   echo "  * $1 FAILED"
   exit 1
@@ -36,7 +36,7 @@ rm -rf server
 curl -s https://bitbucket.org/accursoft/haskell-cloud-template/get/default.tar.bz2 | tar xj
 mv accursoft-haskell-cloud-template-* server
 cd server
-rm .sti/hooks/* .sti/markers/*
+rm .s2i/hooks/* .s2i/markers/*
 check "create app" "Welcome"
 
 #cabal flags
@@ -44,14 +44,14 @@ cp Main.hs test.hs
 sed -i 's/handle response/handle "Greetings"/' test.hs
 echo "Flag A" >>server.cabal
 sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
-echo "b" >.sti/markers/cabal_flags
+echo "b" >.s2i/markers/cabal_flags
 check "enable flags" "Welcome"
-echo "-a" >>.sti/markers/cabal_flags
+echo "-a" >>.s2i/markers/cabal_flags
 check "unset flag" "Greetings"
-rm .sti/markers/cabal_flags
+rm .s2i/markers/cabal_flags
 
 #run_tests
-touch .sti/markers/run_tests
+touch .s2i/markers/run_tests
 echo "main = return ()" >test.hs
 echo "test-suite test
   type:exitcode-stdio-1.0
@@ -59,13 +59,13 @@ echo "test-suite test
   build-depends:groups" >>server.cabal
   #check that test dependencies are installed
 check "run_tests" "Welcome"
-rm .sti/markers/run_tests
+rm .s2i/markers/run_tests
 
 #pre_build hook
-echo "sed -i 's/Welcome/Greetings/' response" >.sti/hooks/pre_build
-chmod +x .sti/hooks/pre_build
+echo "sed -i 's/Welcome/Greetings/' response" >.s2i/hooks/pre_build
+chmod +x .s2i/hooks/pre_build
 check "pre_build hook" "Greetings"
-rm .sti/hooks/pre_build
+rm .s2i/hooks/pre_build
 
 #preserve installed packages
 sed -i 's/network/network,groups/' server.cabal
@@ -76,25 +76,25 @@ if grep -q "groups2" ../build.log; then
 fi
 
 #sequential build
-touch .sti/markers/sequential
+touch .s2i/markers/sequential
 check_build "sequential build" "Compiling"
-rm .sti/markers/sequential
+rm .s2i/markers/sequential
 
 #cabal_update
-touch .sti/markers/cabal_update
+touch .s2i/markers/cabal_update
 check_build "cabal_update" "Downloading the latest package list"
-rm .sti/markers/cabal_update
+rm .s2i/markers/cabal_update
 
 #logs
-touch .sti/markers/logs
+touch .s2i/markers/logs
 check_build "logs" "Compiling"
-rm .sti/markers/logs
+rm .s2i/markers/logs
 
 #pre_run hook
-echo "sed -i 's/Welcome/Greetings/' ~/.cabal/share/*/server-*/response" >.sti/hooks/pre_run
-chmod +x .sti/hooks/pre_run
+echo "sed -i 's/Welcome/Greetings/' ~/.cabal/share/*/server-*/response" >.s2i/hooks/pre_run
+chmod +x .s2i/hooks/pre_run
 check "pre_run hook" "Greetings"
-rm .sti/hooks/pre_run
+rm .s2i/hooks/pre_run
 
 echo "PASSED"
 
@@ -103,4 +103,4 @@ cd ..
 rm -r server build.log
 docker rmi test >/dev/null
 
-docker run --rm accursoft/ghc-network cat /opt/sti/provides
+docker run --rm accursoft/ghc-network cat /opt/s2i/provides

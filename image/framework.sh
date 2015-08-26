@@ -37,10 +37,10 @@ case $1 in
     exit 1
 esac
 
-mkdir /opt/sti
-echo "ghc-`ghc --numeric-version`" >/opt/sti/provides
-echo "cabal-install-`cabal --numeric-version`" >>/opt/sti/provides
-ghc-pkg list | grep " $provides-[[:digit:]]" | cut -c5- >>/opt/sti/provides
+mkdir /opt/s2i
+echo "ghc-`ghc --numeric-version`" >/opt/s2i/provides
+echo "cabal-install-`cabal --numeric-version`" >>/opt/s2i/provides
+ghc-pkg list | grep " $provides-[[:digit:]]" | cut -c5- >>/opt/s2i/provides
 
 #clean up
 rm -rf ~/.cabal

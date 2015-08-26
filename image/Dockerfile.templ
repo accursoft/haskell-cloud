@@ -26,7 +26,7 @@ RUN cabal get && sed -i 's/-- library-for-ghci:/library-for-ghci: False/' /home/
 ENV PORT=8080 \
     PATH=$PATH:/home/haskell/.cabal/bin
 
-LABEL io.openshift.s2i.scripts-url=image://opt/sti
+LABEL io.openshift.s2i.scripts-url=image://opt/s2i
 
 EXPOSE $PORT
-COPY sti /opt/sti/
+COPY s2i /opt/s2i/
