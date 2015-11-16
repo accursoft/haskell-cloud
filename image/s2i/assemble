@@ -10,7 +10,7 @@ if [ -d "/tmp/artifacts/.ghc" ]; then
   ghc-pkg recache --user
 fi
 
-cd /tmp/src
+cd /tmp/src/server
 
 marker() {
   if [ -f ".s2i/markers/$1" ]; then
