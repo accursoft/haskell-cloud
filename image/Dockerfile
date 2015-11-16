@@ -13,7 +13,8 @@ COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh
 
 COPY framework.sh /tmp/
-RUN /tmp/framework.sh <framework>
+ARG framework=network
+RUN /tmp/framework.sh $framework
 
 RUN rm -rf /tmp/*
 
