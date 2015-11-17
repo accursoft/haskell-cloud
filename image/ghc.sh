@@ -36,8 +36,7 @@ echo "Downloading GHC ..."
 curl https://downloads.haskell.org/~ghc/7.10.2/ghc-7.10.2-src.tar.xz | tar xJ
 cd ghc-*
 
-#hpc and hp2ps not needed
-#runghc does not work with non-interactive build
+#hpc, hp2ps and runghc not needed
 sed -i '/BUILD_DIRS += utils\/\(hpc\|runghc\|hp2ps\)/d' ghc.mk
 
 #build
@@ -46,13 +45,6 @@ mv /tmp/build.mk mk
 
 make -j$(nproc)
 make install
-
-#clean up bin
-cd /usr/local/bin
-rm ghc ghc-pkg
-mv ghc-pkg-* ghcpkg
-mv ghc-* ghc
-mv ghcpkg ghc-pkg
 
 #remove ghc-bundled Cabal, will install latest with cabal-install
 ghc-pkg unregister Cabal
@@ -69,6 +61,7 @@ cd /usr/local/lib/ghc*
 #tell the user what's happening
 echo "Stripping libraries ..."
 find -name '*.a' -print -exec strip --strip-unneeded {} +
+find -name '*.o' -delete
 echo "Stripping executables ..."
 ls bin/*
 strip bin/*
