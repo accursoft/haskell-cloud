@@ -18,16 +18,22 @@ RUN /tmp/framework.sh $framework
 
 RUN rm -rf /tmp/*
 
-RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin haskell
-USER haskell
+RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin build;\
+    useradd -r -m -k /dev/null -s /usr/sbin/nologin run
+
+USER build
 
 #generate default cabal config
-RUN cabal get && sed -i 's/-- library-for-ghci:/library-for-ghci: False/' /home/haskell/.cabal/config
+RUN cabal get && sed -i 's/-- library-for-ghci:/library-for-ghci: False/' /home/build/.cabal/config
 
+#environment for builds and expose server port
 ENV PORT=8080 \
-    PATH=$PATH:/home/haskell/.cabal/bin
-
-LABEL io.openshift.s2i.scripts-url=image://opt/s2i
-
+    PATH=$PATH:/home/build/.cabal/bin
 EXPOSE $PORT
+
+#s2i scripts
+LABEL io.openshift.s2i.scripts-url=image://opt/s2i
 COPY s2i /opt/s2i/
+
+#user for running the server
+USER run

@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-s2i="s2i build --rm --incremental . accursoft/ghc-network test"
+s2i="s2i build --rm --incremental --assemble-user="build" . accursoft/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
@@ -87,8 +87,19 @@ touch .s2i/markers/logs
 check_build "logs" "Compiling"
 rm .s2i/markers/logs
 
+#user security
+echo "sed -i 's/Welcome/Greetings/' /home/build/.cabal/share/*/server-*/response" >.s2i/hooks/pre_run
+chmod +x .s2i/hooks/pre_run
+echo "  * Testing user security ..."
+$s2i
+if ! docker run --rm test 2>&1 | grep -q " Permission denied"; then
+  echo "  * user security FAILED"
+  exit 1
+fi
+
 #pre_run hook
-echo "sed -i 's/Welcome/Greetings/' ~/.cabal/share/*/server-*/response" >.s2i/hooks/pre_run
+echo "echo Greetings >/tmp/response" >.s2i/hooks/pre_run
+sed -i 's|getDataFileName "response" >>= readFile|readFile "/tmp/response"|' Main.hs
 chmod +x .s2i/hooks/pre_run
 check "pre_run hook" "Greetings"
 rm .s2i/hooks/pre_run

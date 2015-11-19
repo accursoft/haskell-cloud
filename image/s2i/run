@@ -1,8 +1,8 @@
 #!/bin/sh -eu
-
-if [ -f "/home/haskell/.s2i/pre_run" ]; then
+pre_run=~build/.s2i/pre_run
+if [ -f $pre_run ]; then
   echo "running pre_run hook ..."
-  /home/haskell/.s2i/pre_run
+  $pre_run
 fi
 echo "Starting the server ..."
-exec ~/.cabal/bin/server $PORT
+exec ~build/.cabal/bin/server $PORT
