@@ -38,6 +38,8 @@ cd ghc-*
 
 #hpc, hp2ps and runghc not needed
 sed -i '/BUILD_DIRS += utils\/\(hpc\|runghc\|hp2ps\)/d' ghc.mk
+#skip ghci libraries
+sed -i '/"$$(ghc-cabal_INPLACE)" configure/s/$/ --disable-library-for-ghci/' rules/build-package-data.mk
 
 #build
 ./configure --with-system-libffi
@@ -61,7 +63,6 @@ cd /usr/local/lib/ghc*
 #tell the user what's happening
 echo "Stripping libraries ..."
 find -name '*.a' -print -exec strip --strip-unneeded {} +
-find -name '*.o' -delete
 echo "Stripping executables ..."
 ls bin/*
 strip bin/*
