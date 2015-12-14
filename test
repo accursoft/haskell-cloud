@@ -24,11 +24,9 @@ function check_build {
 }
 
 #build image
-cd image
 ./build network
 
 #create app
-cd ..
 rm -rf server
 curl -s https://bitbucket.org/accursoft/haskell-cloud-template/get/default.tar.bz2 | tar xj
 mv accursoft-haskell-cloud-template-* server

@@ -1,0 +1,1 @@
+docker build -t accursoft/ghc-$1 --build-arg framework=$1 image
