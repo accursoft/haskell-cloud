@@ -1,1 +1,33 @@
-docker build -t accursoft/ghc-$1 --build-arg framework=$1 image
+#!/bin/bash -eu
+
+case "$1" in
+  network)
+    name="Haskell"
+	description="GHC and cabal-install"
+    ;;
+  yesod)
+    name="Yesod"
+	description="GHC, Yesod and Esqueleto"
+    ;;
+  scotty)
+    name="Scotty"
+	description="GHC and Scotty"
+    ;;
+  snap)
+    name="Snap"
+	description="GHC and Snap"
+    ;;
+  mflow)
+    name="MFlow"
+	description="GHC and MFlow"
+    ;;
+  happstack)
+    name="Happstack"
+	description="GHC and Happstack"
+    ;;
+  *)
+    echo "Unknown framework $1" >&2
+    exit 1
+esac
+
+docker build -t accursoft/ghc-$1 --build-arg framework="$1" --build-arg name="$name" --build-arg description="$description" image

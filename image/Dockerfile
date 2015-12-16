@@ -32,8 +32,15 @@ ENV PORT=8080 \
 EXPOSE $PORT
 
 #s2i scripts
-LABEL io.openshift.s2i.scripts-url=image://opt/s2i
 COPY s2i /opt/s2i/
+
+ARG name=
+ARG description=
+LABEL io.openshift.s2i.scripts-url="image://opt/s2i" \
+      io.k8s.display-name=$name \
+      io.k8s.description=$description \
+      io.openshift.tags="builder,haskell,ghc,$framework" \
+      io.openshift.expose-services="8080:http"
 
 #user for running the server
 USER run
