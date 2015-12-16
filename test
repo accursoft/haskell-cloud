@@ -112,4 +112,4 @@ docker rmi test >/dev/null
 docker inspect -f '{{index .ContainerConfig.Labels "io.k8s.display-name"}}
 {{index .ContainerConfig.Labels "io.k8s.description"}}
 {{index .ContainerConfig.Labels "io.openshift.tags"}}' accursoft/ghc-network
-docker run --rm accursoft/ghc-network cat /opt/s2i/provides
+docker run --rm accursoft/ghc-network

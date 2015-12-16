@@ -15,6 +15,7 @@ RUN /tmp/cabal.sh
 COPY framework.sh /tmp/
 ARG framework=network
 RUN /tmp/framework.sh $framework
+CMD ["cat", "/opt/s2i/provides"]
 
 RUN rm -rf /tmp/*
 
