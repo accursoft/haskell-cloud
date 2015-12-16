@@ -30,4 +30,16 @@ case "$1" in
     exit 1
 esac
 
-docker build -t accursoft/ghc-$1 --build-arg framework="$1" --build-arg name="$name" --build-arg description="$description" image
+docker build -t ghc-temp --build-arg framework="$1" image
+
+docker build -t accursoft/ghc-$1 - <<EOF
+FROM ghc-temp
+MAINTAINER Gideon Sireling <code@accursoft.com>
+LABEL io.openshift.s2i.scripts-url="image://opt/s2i" \
+      io.k8s.display-name="$name" \
+      io.k8s.description="$description" \
+      io.openshift.tags="haskell,ghc,$1,$(docker run --rm ghc-temp | tr '\n' ',')builder" \
+      io.openshift.expose-services="8080:http"
+EOF
+
+docker rmi ghc-temp
