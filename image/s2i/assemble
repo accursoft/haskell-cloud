@@ -11,10 +11,6 @@ if [ -d "/tmp/artifacts/.ghc" ]; then
 fi
 
 cd /tmp/src
-#work around https://github.com/openshift/source-to-image/issues/363
-if ! ls *.cabal 1> /dev/null 2>&1; then
-  cd *
-fi
 
 marker() {
   if [ -f ".s2i/markers/$1" ]; then
