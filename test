@@ -1,11 +1,11 @@
 #!/bin/bash -eu
 
-s2i="s2i build --rm --incremental --assemble-user="build" . accursoft/ghc-network test"
+s2i="s2i build --rm --incremental . accursoft/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
   $s2i
-  docker run --name test -d -p 8080:8080 test >/dev/null
+  docker run --name test -d -p 8080:8080 -u 1001 test >/dev/null
   sleep 0.01
   if curl -sS localhost:8080 | grep -q $2; then
     docker rm -f test >/dev/null
@@ -90,7 +90,7 @@ echo "sed -i 's/Welcome/Greetings/' /home/build/.cabal/share/*/server-*/response
 chmod +x .s2i/hooks/pre_run
 echo "  * Testing user security ..."
 $s2i
-if ! docker run --rm test 2>&1 | grep -q " Permission denied"; then
+if ! docker run --rm -u 1001 test 2>&1 | grep -q " Permission denied"; then
   echo "  * user security FAILED"
   exit 1
 fi

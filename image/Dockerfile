@@ -18,9 +18,7 @@ CMD ["cat", "/opt/s2i/provides"]
 
 RUN rm -rf /tmp/*
 
-RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin build;\
-    useradd -r -m -k /dev/null -s /usr/sbin/nologin run
-
+RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin build
 USER build
 
 #generate default cabal config
@@ -33,6 +31,3 @@ EXPOSE $PORT
 
 #s2i scripts
 COPY s2i /opt/s2i/
-
-#user for running the server
-USER run
