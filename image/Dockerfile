@@ -1,12 +1,7 @@
-FROM accursoft/micro-jessie
+FROM accursoft/micro-debian
 
 COPY ghc.sh build.mk /tmp/
 RUN /tmp/ghc.sh
-
-#switch on gold linker
-#we can't do this earlier because the apt-installed ghc can't use it
-#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718814#15
-RUN update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
 
 COPY cabal.sh /tmp/
 RUN /tmp/cabal.sh

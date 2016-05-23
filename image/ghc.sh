@@ -2,6 +2,9 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
+#debian ghc package hard-codes /bin/bash, needs it to work in the configuration script
+ln -s /bin/sh /bin/bash
+
 # install prerequisites
 
 dependencies="
@@ -29,11 +32,18 @@ build_dependencies="
 apt-get update
 apt-get install -y --no-install-recommends $dependencies $build_dependencies
 
+rm /bin/bash
+sed -i 's|/bin/bash|/bin/sh|' /usr/bin/ghc /usr/bin/ghc-pkg
+
+#switch on gold linker
+#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718814#15
+update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
+
 #download ghc
 echo "silent
 show-error" >>~/.curlrc
 echo "Downloading GHC ..."
-curl https://downloads.haskell.org/~ghc/7.10.3/ghc-7.10.3-src.tar.xz | tar xJ
+curl https://downloads.haskell.org/~ghc/8.0.1/ghc-8.0.1-src.tar.xz | tar xJ
 cd ghc-*
 
 #hpc, hp2ps and runghc not needed
@@ -55,8 +65,8 @@ ghc-pkg unregister Cabal
 apt-get purge --auto-remove -y $build_dependencies
 /opt/post-apt
 rm -r /ghc-* \
-      /usr/local/lib/ghc-*/Cabal_* \
-      /usr/local/share/doc/ghc/html/libraries/Cabal-*
+      /usr/local/lib/ghc-*/Cabal-* \
+      /usr/local/share/doc/ghc-*/html/libraries/Cabal-*
 
 #strip
 cd /usr/local/lib/ghc*
@@ -64,5 +74,7 @@ cd /usr/local/lib/ghc*
 echo "Stripping libraries ..."
 find -name '*.a' -print -exec strip --strip-unneeded {} +
 echo "Stripping executables ..."
-ls bin/*
-strip bin/*
+cd bin
+bins="ghc ghc-iserv ghc-pkg hsc2hs unlit"
+echo $bins
+strip $bins
