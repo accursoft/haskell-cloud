@@ -56,7 +56,7 @@ sed -i '/"$$(ghc-cabal_INPLACE)" configure/s/$/ --disable-library-for-ghci/' rul
 mv /tmp/build.mk mk
 
 make -j$(nproc)
-make install
+make install-strip
 
 #remove ghc-bundled Cabal, will install latest with cabal-install
 ghc-pkg unregister Cabal
@@ -68,13 +68,10 @@ rm -r /ghc-* \
       /usr/local/lib/ghc-*/Cabal-* \
       /usr/local/share/doc/ghc-*/html/libraries/Cabal-*
 
-#strip
-cd /usr/local/lib/ghc*
-#tell the user what's happening
-echo "Stripping libraries ..."
-find -name '*.a' -print -exec strip --strip-unneeded {} +
-echo "Stripping executables ..."
-cd bin
-bins="ghc ghc-iserv ghc-pkg hsc2hs unlit"
-echo $bins
-strip $bins
+#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=783876
+#https://ghc.haskell.org/trac/ghc/ticket/1851
+echo "Stripping ..."
+strip --strip-unneeded /usr/lib/x86_64-linux-gnu/*.a \
+                       /usr/lib/gcc/x86_64-linux-gnu/5/*.a \
+                       /usr/lib/gcc/x86_64-linux-gnu/5/cc1 \
+                       /usr/local/lib/ghc-8.0.1/rts/*
