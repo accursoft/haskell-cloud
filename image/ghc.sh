@@ -46,8 +46,8 @@ echo "Downloading GHC ..."
 curl https://downloads.haskell.org/~ghc/8.0.1/ghc-8.0.1-src.tar.xz | tar xJ
 cd ghc-*
 
-#hpc, hp2ps and runghc not needed
-sed -i '/BUILD_DIRS += utils\/\(hpc\|runghc\|hp2ps\)/d' ghc.mk
+#hpc, hp2ps, runghc and iserv not needed
+sed -i '/BUILD_DIRS += utils\/\(hpc\|runghc\|hp2ps\)/d; /BUILD_DIRS += iserv/d' ghc.mk
 #skip ghci libraries
 sed -i '/"$$(ghc-cabal_INPLACE)" configure/s/$/ --disable-library-for-ghci/' rules/build-package-data.mk
 
