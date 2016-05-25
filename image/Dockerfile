@@ -13,7 +13,7 @@ CMD ["cat", "/opt/s2i/provides"]
 
 RUN rm -rf /tmp/*
 
-RUN useradd -r -m -k /dev/null -s /usr/sbin/nologin build
+RUN adduser --system --shell /usr/sbin/nologin build
 USER build
 
 #generate default cabal config

@@ -13,14 +13,11 @@ dependencies="
   gcc
   libffi-dev
   libgmp-dev
-  passwd
   zlib1g-dev
   "
 #zlib-dev is only needed later by cabal-install
 #installing all the prerequisites in the same layer saves time (we won't need to contact the update sites again)
 #and space (we won't bloat subsequent layers with changes to the package db)
-#passwd is used by the dockerfile for creating users
-#we could save about 3Mb by creating users in this script and making it a build dependency instead
   
 build_dependencies="
   ghc
