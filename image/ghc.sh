@@ -2,9 +2,6 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-#debian ghc package hard-codes /bin/bash, needs it to work in the configuration script
-ln -s /bin/sh /bin/bash
-
 # install prerequisites
 
 dependencies="
@@ -28,9 +25,6 @@ build_dependencies="
 
 apt-get update
 apt-get install -y --no-install-recommends $dependencies $build_dependencies
-
-rm /bin/bash
-sed -i 's|/bin/bash|/bin/sh|' /usr/bin/ghc /usr/bin/ghc-pkg
 
 #switch on gold linker
 #https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718814#15
