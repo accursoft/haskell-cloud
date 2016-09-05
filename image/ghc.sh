@@ -63,6 +63,7 @@ rm -r /ghc-* \
 #https://ghc.haskell.org/trac/ghc/ticket/1851
 echo "Stripping ..."
 strip --strip-unneeded /usr/lib/x86_64-linux-gnu/*.a \
-                       /usr/lib/gcc/x86_64-linux-gnu/5/*.a \
-                       /usr/lib/gcc/x86_64-linux-gnu/5/cc1 \
+                       /usr/lib/gcc/x86_64-linux-gnu/6/*.a \
+                       /usr/lib/gcc/x86_64-linux-gnu/6/cc1 \
+                       /usr/lib/gcc/x86_64-linux-gnu/6/lto1 \
                        /usr/local/lib/ghc-8.0.1/rts/*
