@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-s2i="s2i build --rm --incremental . accursoft/ghc-network test"
+s2i="s2i build --rm --incremental --loglevel=1 . accursoft/ghc-network test"
 
 function check {
   echo "  * Testing $1 ..."
