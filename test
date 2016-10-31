@@ -1,26 +1,40 @@
 #!/bin/bash -eu
 
-s2i="s2i build --rm --incremental --loglevel=1 . accursoft/ghc-network test"
+function build {
+  s2i build --rm --incremental --loglevel=1 . accursoft/ghc-network test
+}
 
-function check {
-  echo "  * Testing $1 ..."
-  $s2i
+function remove {
+  docker rm -f test >/dev/null
+}
+
+function begin {
+  echo
+  echo " * Testing $1 ..."
+}
+
+function run {
+  begin "$1"
+  build
   docker run --name test -d -p 8080:8080 -u 1001 test >/dev/null
-  sleep 0.01
-  if curl -sS localhost:8080 | grep -q $2; then
-    docker rm -f test >/dev/null
-    return
-  fi
-  echo "  * $1 FAILED"
+  sleep 0.1
+}
+
+function fail {
+  echo " * $1 FAILED"
   exit 1
 }
 
+function check {
+  run "$1"
+  curl -sS localhost:8080 | grep -q $2 || fail "$1"
+  remove
+}
+
 function check_build {
-  echo "  * Testing $1 ..."
-  $s2i |& tee ../build.log
-  grep -q "$2" ../build.log && return
-  echo "  * $1 FAILED"
-  exit 1
+  begin "$1"
+  build |& tee ../build.log
+  grep -q "$2" ../build.log || fail "$1"
 }
 
 #build image
@@ -65,10 +79,7 @@ rm .s2i/hooks/pre_build
 #preserve installed packages
 sed -i 's/network/network,groups/' server.cabal
 check_build "use previously installed package" "server"
-if grep -q "groups2" ../build.log; then
-  echo "  * package groups from earlier build was not reused - FAILED"
-  exit 1
-fi
+grep -q "groups2" ../build.log && fail "package groups from earlier build was not reused"
 
 #sequential build
 touch .s2i/markers/sequential
@@ -88,24 +99,20 @@ rm .s2i/markers/logs
 #user security
 echo "sed -i 's/Welcome/Greetings/' /home/build/.cabal/share/*/server-*/response" >.s2i/hooks/pre_run
 chmod +x .s2i/hooks/pre_run
-echo "  * Testing user security ..."
-$s2i
-if ! timeout -s KILL 5 docker run --name test --rm -u 1001 test 2>&1 >build.log; then
-  echo "  * server did not fail"
-  echo "  * user security FAILED"
-  exit 1
-fi
-if ! grep -q " Permission denied" build.log; then
-  echo "  * user security FAILED"
-  exit 1
-fi
+run "user security"
+docker logs test |& grep -iq " Permission denied" || fail "user security"
+remove
+
 #pre_run hook
 echo "echo Greetings >/tmp/response" >.s2i/hooks/pre_run
 sed -i 's|getDataFileName "response" >>= readFile|readFile "/tmp/response"|' Main.hs
 chmod +x .s2i/hooks/pre_run
 check "pre_run hook" "Greetings"
 rm .s2i/hooks/pre_run
-echo "PASSED"
+
+echo
+echo " * PASSED"
+echo
 
 #clear up
 cd ..
