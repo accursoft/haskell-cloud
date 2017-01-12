@@ -34,7 +34,7 @@ update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
 echo "silent
 show-error" >>~/.curlrc
 echo "Downloading GHC ..."
-curl https://downloads.haskell.org/~ghc/8.0.1/ghc-8.0.1-src.tar.xz | tar xJ
+curl https://downloads.haskell.org/~ghc/8.0.2/ghc-8.0.2-src.tar.xz | tar xJ
 cd ghc-*
 
 #hpc, hp2ps, runghc and iserv not needed
@@ -66,4 +66,4 @@ strip --strip-unneeded /usr/lib/x86_64-linux-gnu/*.a \
                        /usr/lib/gcc/x86_64-linux-gnu/6/*.a \
                        /usr/lib/gcc/x86_64-linux-gnu/6/cc1 \
                        /usr/lib/gcc/x86_64-linux-gnu/6/lto1 \
-                       /usr/local/lib/ghc-8.0.1/rts/*
+                       /usr/local/lib/ghc-*/rts/*
