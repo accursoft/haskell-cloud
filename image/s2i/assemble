@@ -13,11 +13,7 @@ fi
 cd /tmp/src
 
 marker() {
-  if [ -f ".s2i/markers/$1" ]; then
-    echo "marker: $1"
-  else
-    return 1
-  fi
+  [ -f ".s2i/markers/$1" ] && echo "marker: $1"
 }
 
 hook() {
