@@ -14,7 +14,7 @@ Haskell Cloud includes:
 
 Haskell Cloud is built in various flavours, with different pre-installed packages. See the [Haskell wiki](http://www.haskell.org/haskellwiki/Web/Cloud#OpenShift) for details.
 
-These example show how to use [ghc-network](https://hub.docker.com/r/accursoft/ghc-network/) builder with the [sample repository](https://github.com/accursoft/Haskell-Cloud-template).
+These examples show how to use [ghc-network](https://hub.docker.com/r/accursoft/ghc-network/) builder with the [sample repository](https://github.com/accursoft/Haskell-Cloud-template).
 
 ### Source-to-Image
 
@@ -30,8 +30,6 @@ See it in action:
 
 `curl localhost:8080`
 
-To re-use packages from earlier builds after changing the source, pass the `--incremental` flag to `s2i build`.
-
 ### OpenShift
 
 Download the [CLI](https://docs.openshift.com/online/cli_reference/get_started_cli.html#installing-the-cli) from your OpenShift console, and follow the instructions for logging in.
@@ -43,13 +41,20 @@ To create the application:
 
 To see it in action, create a route from the console, or `oc expose haskell-cloud`.
 
+## Incremental Builds
+
+Incremental builds re-use compiled dependencies and the hackage index from the previous build.
+
+- **s2i**: Pass the `--incremental` flag to `s2i build`.
+- **OpenShift**: `oc patch buildconfig haskell-cloud -p '{"spec":{"strategy":{"sourceStrategy":{"incremental":true}}}}'`
+
+Old packages are never removed from incremental builds, so an occasional clean build may be required to avoid image bloat.
+
+Apply the `cabal_update` marker (see below) to force `cabal update` before incremental builds.
+
 ## Haskell
 
 The application's cabal file must define an executable called `server`, which listens on port 8080.
-
-## Cabal Update
-
-The `cabal_update` marker (see below) will run `cabal update` before every build, otherwise it is only run before the first build.
 
 ## Markers and Hooks
 
