@@ -50,7 +50,7 @@ make install-strip
 ghc-pkg unregister Cabal
 
 #clean up
-apt-get purge --auto-remove -y $build_dependencies
+apt-get purge -y $build_dependencies
 /opt/post-apt
 rm -r /ghc-* \
       /usr/local/lib/ghc-*/Cabal-* \
