@@ -27,10 +27,6 @@ build_dependencies="
 apt-get update
 apt-get install -y --no-install-recommends $dependencies $build_dependencies
 
-#switch on gold linker
-#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718814#15
-update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
-
 #download ghc
 echo "silent
 show-error" >>~/.curlrc
