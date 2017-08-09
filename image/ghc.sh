@@ -7,15 +7,16 @@ export DEBIAN_FRONTEND=noninteractive
 dependencies="
   ca-certificates
   curl
+  dnsutils
   gcc
   libffi-dev
   libgmp-dev
   zlib1g-dev
   "
-#zlib-dev is only needed later by cabal-install
-#installing all the prerequisites in the same layer saves time (we won't need to contact the update sites again)
-#and space (we won't bloat subsequent layers with changes to the package db)
-  
+#https://github.com/haskell/cabal/issues/4102
+
+#zlib1g-dev is needed for zlib, used by cabal-install
+
 build_dependencies="
   ghc
   make
@@ -34,7 +35,7 @@ update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 20
 echo "silent
 show-error" >>~/.curlrc
 echo "Downloading GHC ..."
-curl https://downloads.haskell.org/~ghc/8.0.2/ghc-8.0.2-src.tar.xz | tar xJ
+curl https://downloads.haskell.org/~ghc/8.2.1/ghc-8.2.1-src.tar.xz | tar xJ
 cd ghc-*
 
 #hpc, hp2ps, runghc and iserv not needed

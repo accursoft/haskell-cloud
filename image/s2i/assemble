@@ -1,9 +1,10 @@
 #!/bin/sh -eu
 
 if [ -d "/tmp/artifacts/.cabal" ]; then
-  mv /tmp/artifacts/.cabal/* ~/.cabal
+  cp -rl /tmp/artifacts/.cabal/* ~/.cabal
+  rm -r /tmp/artifacts/.cabal
   cd ~/.cabal/packages/*
-  gzip -dk 00-index.tar.gz
+  gzip -dk 01-index.tar.gz
 fi
 if [ -d "/tmp/artifacts/.ghc" ]; then
   mv /tmp/artifacts/.ghc ~
@@ -24,7 +25,7 @@ hook() {
 }
 
 #cabal stuff
-if marker cabal_update || [ ! -d ~/.cabal/packages ]; then
+if marker cabal_update || [ ! -e ~/.cabal/packages/*/01-index.tar ]; then
   cabal update
 fi
 if marker sequential; then
@@ -47,7 +48,7 @@ else
   cabal install
 fi
 if marker logs; then
-  cd ~/.cabal/logs
+  cd ~/.cabal/logs/ghc-*
   tail -n+1 $(ls -I build.log -rt)
   cd - >/dev/null
 fi
@@ -63,7 +64,7 @@ fi
 #clean up
 cd ~
 rm -rf /tmp/* \
-  .cabal/packages/*/00-index.cache \
-  .cabal/packages/*/00-index.tar \
+  .cabal/packages/*/01-index.cache \
+  .cabal/packages/*/01-index.tar \
   .cabal/logs \
   .ghc/*/package.conf.d/package.cache

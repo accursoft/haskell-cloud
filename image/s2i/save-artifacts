@@ -1,7 +1,9 @@
 #!/bin/sh -eu
 
 cd ~
-exec tar -c $(ls -d .cabal .ghc 2>/dev/null) \
+exec tar -c \
 --exclude=".cabal/config" \
+--exclude=".cabal/packages/*/root.json" \
 --exclude=".cabal/share/*/server-*" \
---exclude=".cabal/bin/server"
+--exclude=".cabal/bin/server" \
+$(ls -d .cabal .ghc 2>/dev/null)
