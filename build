@@ -3,27 +3,27 @@
 case "$1" in
   network)
     name="Haskell"
-	description="GHC and cabal-install"
+    description="GHC and cabal-install"
     ;;
   yesod)
     name="Yesod"
-	description="GHC, Yesod and Esqueleto"
+    description="GHC, Yesod and Esqueleto"
     ;;
   scotty)
     name="Scotty"
-	description="GHC and Scotty"
+    description="GHC and Scotty"
     ;;
   snap)
     name="Snap"
-	description="GHC and Snap"
+    description="GHC and Snap"
     ;;
   mflow)
     name="MFlow"
-	description="GHC and MFlow"
+    description="GHC and MFlow"
     ;;
   happstack)
     name="Happstack"
-	description="GHC and Happstack"
+    description="GHC and Happstack"
     ;;
   *)
     echo "Unknown framework $1" >&2
