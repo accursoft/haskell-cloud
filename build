@@ -41,5 +41,6 @@ LABEL io.openshift.s2i.scripts-url="image://opt/s2i" \
       io.openshift.tags="haskell,ghc,$1,$(docker run --rm ghc-temp | tr '\n' ',')builder" \
       io.openshift.expose-services="8080:http"
 EOF
+docker tag accursoft/ghc-$1 accursoft/ghc-$1:$(docker run --rm ghc-temp ghc --numeric-version)
 
 docker rmi ghc-temp
