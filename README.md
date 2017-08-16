@@ -40,6 +40,7 @@ To create the application:
 `oc new-app accursoft/ghc-network~https://github.com/accursoft/haskell-cloud-template --name="haskell-cloud"`
 
 To see it in action, create a route from the console, or `oc expose service haskell-cloud`.
+Note that it can take a few minutes for OpenShift to begin routing traffic.
 
 ## Incremental Builds
 
