@@ -56,6 +56,7 @@ Apply the `cabal_update` marker (see below) to force `cabal update` before incre
 ## Haskell
 
 The application's cabal file must define an executable called `server`, which listens on port 8080.
+This is provided as the `PORT` environment variable and as a command line argument.
 
 ## Markers and Hooks
 
