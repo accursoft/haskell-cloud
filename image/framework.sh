@@ -28,7 +28,6 @@ case $1 in
     ;;
   happstack)
     $cabal happy
-    $cabal hsx2hs
     $cabal happstack-foundation
     provides="happstack-foundation"
     ;;
