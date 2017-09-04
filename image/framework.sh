@@ -31,6 +31,10 @@ case $1 in
     $cabal happstack-foundation
     provides="happstack-foundation"
     ;;
+  spock)
+    $cabal Spock
+    provides="Spock"
+    ;;
   *)
     echo Unknown build option $1
     exit 1

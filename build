@@ -25,6 +25,10 @@ case "$1" in
     name="Happstack"
     description="GHC and Happstack"
     ;;
+  spock)
+    name="Spock"
+    description="GHC and Spock"
+    ;;
   *)
     echo "Unknown framework $1" >&2
     exit 1
