@@ -1,17 +1,4 @@
-FROM accursoft/micro-debian
-
-COPY ghc.sh build.mk /tmp/
-RUN /tmp/ghc.sh
-
-COPY cabal.sh /tmp/
-RUN /tmp/cabal.sh
-
-COPY framework.sh /tmp/
-ARG framework=network
-RUN /tmp/framework.sh $framework
-CMD ["cat", "/opt/s2i/provides"]
-
-RUN rm -rf /tmp/*
+FROM haskell:8.6.3
 
 RUN adduser --system --shell /usr/sbin/nologin -u 101 build
 USER 101

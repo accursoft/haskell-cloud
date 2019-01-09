@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 function build {
-  s2i build --rm --incremental --loglevel=1 . accursoft/ghc-network test
+  s2i build --rm --incremental --loglevel=1 . accursoft/ghc test
 }
 
 function remove {
@@ -36,9 +36,6 @@ function check_build {
   build |& tee ../build.log
   grep -q "$2" ../build.log || fail "$1"
 }
-
-#build image
-./build network
 
 #create app
 rm -rf server
@@ -121,4 +118,4 @@ docker rmi test >/dev/null
 
 docker inspect -f '{{index .ContainerConfig.Labels "io.k8s.display-name"}}
 {{index .ContainerConfig.Labels "io.k8s.description"}}
-{{index .ContainerConfig.Labels "io.openshift.tags"}}' accursoft/ghc-network
+{{index .ContainerConfig.Labels "io.openshift.tags"}}' accursoft/ghc

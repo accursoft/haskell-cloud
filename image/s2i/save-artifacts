@@ -4,6 +4,8 @@ cd ~
 exec tar -c \
 --exclude=".cabal/config" \
 --exclude=".cabal/packages/*/root.json" \
+--exclude=".cabal/packages/*/hackage-security-lock" \
+--exclude=".cabal/packages/*/package-cache-lock" \
 --exclude=".cabal/share/*/server-*" \
 --exclude=".cabal/bin/server" \
 $(ls -d .cabal .ghc 2>/dev/null)
