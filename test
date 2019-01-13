@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#/usr/bin/env bash -eu
 
 function build {
   s2i build --rm --incremental --loglevel=1 . accursoft/ghc test
