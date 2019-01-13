@@ -1,19 +1,4 @@
 #!/bin/bash -eu
 
-docker build -t ghc-temp image
-
-ghc=$(docker run --rm ghc-temp ghc --numeric-version)
-cabal=$(docker run --rm ghc-temp cabal --numeric-version)
-
-docker build -t accursoft/ghc - <<EOF
-FROM ghc-temp
-MAINTAINER Gideon Sireling <code@accursoft.com>
-LABEL io.openshift.s2i.scripts-url="image://opt/s2i" \
-      io.k8s.display-name="Haskell" \
-      io.k8s.description="GHC and build tools" \
-      io.openshift.tags="haskell,ghc,ghc-$ghc,cabal-install-$cabal,builder" \
-      io.openshift.expose-services="8080:http"
-EOF
-docker tag accursoft/ghc accursoft/ghc:$ghc
-
-docker rmi ghc-temp
+docker build -t accursoft/ghc:$1 --build-arg version=$1 image
+docker tag accursoft/ghc:$1 accursoft/ghc
