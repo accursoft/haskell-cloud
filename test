@@ -39,7 +39,7 @@ function check_build {
 
 #create app
 rm -rf server
-curl -s https://bitbucket.org/accursoft/haskell-cloud-template/get/default.tar.bz2 | tar xj
+curl -s https://bitbucket.org/accursoft/haskell-cloud-template/get/master.tar.bz2 | tar xj
 mv accursoft-haskell-cloud-template-* server
 cd server
 rm .s2i/hooks/* .s2i/markers/*
