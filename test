@@ -1,4 +1,5 @@
-#/usr/bin/env bash -eu
+#/usr/bin/env bash
+set -eu
 
 function build {
   s2i build --rm --incremental --loglevel=1 . accursoft/ghc test
@@ -38,16 +39,15 @@ function check_build {
 }
 
 #create app
-rm -rf server
-curl -s https://bitbucket.org/accursoft/haskell-cloud-template/get/master.tar.bz2 | tar xj
-mv accursoft-haskell-cloud-template-* server
+mkdir server
+cp test-server/* server
 cd server
-rm .s2i/hooks/* .s2i/markers/*
+mkdir -p .s2i/markers .s2i/hooks
 check "create app" "Welcome"
 
 #cabal flags
 cp Main.hs test.hs
-sed -i 's/handle response/handle "Greetings"/' test.hs
+sed -i 's/Welcome/Greetings/' test.hs
 echo "Flag A" >>server.cabal
 sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
 echo "b" >.s2i/markers/cabal_flags
@@ -68,13 +68,13 @@ check "run_tests" "Welcome"
 rm .s2i/markers/run_tests
 
 #pre_build hook
-echo "sed -i 's/Welcome/Greetings/' response" >.s2i/hooks/pre_build
+echo "sed -i 's/Welcome/Greetings/' Main.hs" >.s2i/hooks/pre_build
 chmod +x .s2i/hooks/pre_build
 check "pre_build hook" "Greetings"
 rm .s2i/hooks/pre_build
 
 #preserve installed packages
-sed -i 's/network/network,groups/' server.cabal
+sed -i 's/base/base,groups/' server.cabal
 check_build "use previously installed package" "server"
 grep -q "groups2" ../build.log && fail "package groups from earlier build was not reused"
 
@@ -94,7 +94,7 @@ check_build "logs" "Compiling"
 rm .s2i/markers/logs
 
 #user security
-echo "sed -i 's/Welcome/Greetings/' /home/build/.cabal/share/*/server-*/response" >.s2i/hooks/pre_run
+echo "touch /home/build/tamper" >.s2i/hooks/pre_run
 chmod +x .s2i/hooks/pre_run
 run "user security"
 docker logs test |& grep -iq " Permission denied" || fail "user security"
@@ -102,7 +102,10 @@ remove
 
 #pre_run hook
 echo "echo Greetings >/tmp/response" >.s2i/hooks/pre_run
-sed -i 's|getDataFileName "response" >>= readFile|readFile "/tmp/response"|' Main.hs
+sed -i '
+s/responseLBS/responseFile/
+s|"Welcome"|"/tmp/response"\n  Nothing|
+' Main.hs
 chmod +x .s2i/hooks/pre_run
 check "pre_run hook" "Greetings"
 rm .s2i/hooks/pre_run
