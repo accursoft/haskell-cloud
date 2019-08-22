@@ -5,13 +5,13 @@ It can be used directly with `s2i`, or deployed on [OpenShift](https://www.opens
 
 ## Usage
 
-These examples use the [sample repository](https://bitbucket.org/accursoft/haskell-cloud-template).
+These examples use the [sample repository](https://github.com/accursoft/haskell-cloud-template).
 
 ### Source-to-Image
 
 Download S2I from [GitHub](https://github.com/openshift/source-to-image/releases), and build an image with:
 
-`s2i build --rm https://bitbucket.org/accursoft/haskell-cloud-template accursoft/ghc haskell-cloud`
+`s2i build --rm https://github.com/accursoft/haskell-cloud-template accursoft/ghc haskell-cloud`
 
 The resulting image can be run with:
 
@@ -28,7 +28,7 @@ Create a project (through the console or CLI) if you do not already have one, an
 
 To create the application:
 
-`oc new-app accursoft/ghc~https://bitbucket.org/accursoft/haskell-cloud-template --name="haskell-cloud"`
+`oc new-app accursoft/ghc~https://github.com/accursoft/haskell-cloud-template --name="haskell-cloud"`
 
 To see it in action, create a route from the console, or `oc expose service haskell-cloud`.
 Note that it can take a few minutes for OpenShift to begin routing traffic.
@@ -51,4 +51,4 @@ This is provided as the `PORT` environment variable and as a command line argume
 
 ## Markers and Hooks
 
-[Markers](https://bitbucket.org/accursoft/haskell-cloud-template/src/tip/.s2i/markers/README) and [hooks](https://bitbucket.org/accursoft/haskell-cloud-template/src/tip/.s2i/hooks/README) can be created in `.s2i/` to modify the build process.
+[Markers](https://github.com/accursoft/haskell-cloud-template/tree/master/.s2i/markers/README) and [hooks](https://github.com/accursoft/haskell-cloud-template/tree/master/.s2i/hooks/README) can be created in `.s2i/` to modify the build process.
